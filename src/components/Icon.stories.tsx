@@ -3,6 +3,10 @@ import type { Meta, StoryObj } from '@storybook/react';
 import OtokuIcon from './OtokuIcon';
 import GamanIcon from './GamanIcon';
 import CameraIcon from './CameraIcon';
+import ManualIcon from './ManualIcon';
+import GalleryIcon from './GalleryIcon';
+import SettingsIcon from './SettingsIcon';
+
 
 const meta: Meta = {
   title: 'Components/Icons',
@@ -56,7 +60,7 @@ export const CameraBlue: StoryObj = {
 // アイコン一覧表示
 export const IconSet: StoryObj = {
   render: () => (
-    <div className="flex space-x-8 items-center">
+    <div className="flex space-x-8 items-center ">
       <div className="text-center">
         <OtokuIcon />
         <p className="mt-2 text-sm text-gray-600">おトク</p>
@@ -68,6 +72,18 @@ export const IconSet: StoryObj = {
       <div className="text-center">
         <CameraIcon />
         <p className="mt-2 text-sm text-gray-600">カメラ</p>
+      </div>
+      <div className="text-center">
+        <ManualIcon />
+        <p className="mt-2 text-sm text-gray-600">手入力</p>
+      </div>
+      <div className="items-center">
+        <GalleryIcon />
+        <p className="mt-2 text-sm text-gray-600">カメラロール</p>
+      </div>
+      <div className="items-center">
+        <SettingsIcon />
+        <p className="mt-2 text-sm text-gray-600">カメラロール</p>
       </div>
     </div>
   ),

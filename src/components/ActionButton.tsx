@@ -2,10 +2,11 @@ import React from 'react';
 import OtokuIcon from './OtokuIcon';
 import GamanIcon from './GamanIcon';
 import CameraIcon from './CameraIcon';
+import SettingsIcon from './SettingsIcon';
 
 interface ActionButtonProps {
   type: 'otoku' | 'gaman' | 'neutral';
-  variant?: 'record' | 'camera' | 'manual' | 'gallery' | 'default';
+  variant?: 'record' | 'camera' | 'manual' | 'gallery' | 'settings' | 'default';
   onClick?: () => void;
   disabled?: boolean;
   className?: string;
@@ -32,6 +33,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
       case 'default':
         return `${common} w-full py-4 px-6 rounded-2xl shadow-md hover:shadow-lg`;
       case 'record':
+      case 'settings':
       default:
         return `${common} w-full py-5 px-6 rounded-3xl shadow-md hover:shadow-lg`;
     }
@@ -88,6 +90,8 @@ const ActionButton: React.FC<ActionButtonProps> = ({
       case 'manual':
       case 'gallery':
         return 24;
+      case 'settings':
+        return 24;
       case 'default':
       case 'record':
       default:
@@ -141,6 +145,8 @@ const ActionButton: React.FC<ActionButtonProps> = ({
       case 'gallery':
         // ギャラリーアイコン（画像アイコンなど）- 現在はCameraIconで代用
         return <CameraIcon width={iconSize} height={iconSize} color={iconColor} />;
+      case 'settings':
+        return <SettingsIcon width={iconSize} height={iconSize} color={iconColor} />;
       case 'default':
       case 'record':
       default:
@@ -166,6 +172,8 @@ const ActionButton: React.FC<ActionButtonProps> = ({
         return '手入力';
       case 'gallery':
         return 'カメラロール';
+      case 'settings':
+        return '設定';
       case 'default':
         return '次に進む';
       case 'record':

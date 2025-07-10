@@ -17,7 +17,7 @@ const meta: Meta<typeof ActionButton> = {
     },
     variant: {
       control: { type: 'select' },
-      options: ['record', 'camera', 'manual', 'gallery', 'default'],
+      options: ['record', 'camera', 'manual', 'gallery', 'default', 'settings'],
       description: 'ボタンの表示形式',
     },
     disabled: {

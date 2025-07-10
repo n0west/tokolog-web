@@ -15,7 +15,7 @@ const RecordCard: React.FC<RecordCardProps> = ({
   productName 
 }) => {
   return (
-    <div className="bg-white rounded-lg p-6 shadow-sm w-80">
+    <div className="bg-white p-6 w-full">
       <div className="flex justify-between items-start gap-6">
         {/* 左側：Stat（金額情報）- 左端配置 */}
         <div className="flex-shrink-0">

@@ -1,5 +1,5 @@
 import React from 'react';
-import RecordCard from './RecordCard';
+import RecordCard from '../cards/RecordCard';
 
 interface RecordData {
   id: string;
@@ -31,14 +31,14 @@ const HistorySection: React.FC<HistorySectionProps> = ({
   const hasRecords = records.length > 0;
 
   return (
-    <div className={`bg-white rounded-2xl p-6 shadow-sm ${className}`}>
+    <div className={`bg-white rounded-3xl p-6 border border-sub-border ${className}`}>
       {/* ヘッダー */}
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-bold text-tx-default">{title}</h2>
+        <h2 className="text-xl font-bold text-primary">{title}</h2>
         {hasRecords && onViewAllClick && (
           <button 
             onClick={onViewAllClick}
-            className="text-slate-500 hover:text-slate-500 text-sm font-bold transition-colors flex items-center gap-1"
+            className="text-secondary hover:text-secondary text-sm font-bold transition-colors flex items-center gap-1"
           >
             すべて見る
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -50,7 +50,7 @@ const HistorySection: React.FC<HistorySectionProps> = ({
 
       {/* 記録一覧 or 空状態 */}
       {hasRecords ? (
-        <div className="divide-y divide-gray-200">
+        <div className="divide-y divide-sub-border">
           {displayRecords.map((record) => (
             <div key={record.id} className="first:pt-0 last:pb-0">
               <RecordCard
@@ -64,17 +64,17 @@ const HistorySection: React.FC<HistorySectionProps> = ({
         </div>
       ) : (
         <div className="text-center py-8">
-          <div className="text-tx-tertiary text-sm mb-4">
+          <div className="text-tertiary text-sm mb-4">
             {emptyMessage}
           </div>
-          <div className="w-16 h-16 mx-auto bg-gray-100 rounded-full flex items-center justify-center">
+          <div className="w-16 h-16 mx-auto bg-home rounded-full flex items-center justify-center">
             <svg 
               width="24" 
               height="24" 
               viewBox="0 0 24 24" 
               fill="none" 
               xmlns="http://www.w3.org/2000/svg"
-              className="text-gray-400"
+              className="text-tertiary"
             >
               <path 
                 d="M9 12H15M9 16H15M17 21H7C5.89543 21 5 20.1046 5 19V5C5 3.89543 5.89543 3 7 3H12.5858C12.851 3 13.1054 3.10536 13.2929 3.29289L19.7071 9.70711C19.8946 9.89464 20 10.149 20 10.4142V19C20 20.1046 19.1046 21 18 21H17Z" 

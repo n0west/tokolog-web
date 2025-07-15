@@ -1,5 +1,5 @@
 import React from 'react';
-import Stat from './Stat';
+import Stat from '../stats/Stat';
 
 interface StatCardProps {
   type: 'otoku' | 'gaman';

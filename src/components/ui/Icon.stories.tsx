@@ -1,11 +1,11 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import OtokuIcon from './OtokuIcon';
-import GamanIcon from './GamanIcon';
-import CameraIcon from './CameraIcon';
-import ManualIcon from './ManualIcon';
-import GalleryIcon from './GalleryIcon';
-import SettingsIcon from './SettingsIcon';
+import OtokuIcon from '../icons/OtokuIcon';
+import GamanIcon from '../icons/GamanIcon';
+import CameraIcon from '../icons/CameraIcon';
+import ManualIcon from '../icons/ManualIcon';
+import GalleryIcon from '../icons/GalleryIcon';
+import SettingsIcon from '../icons/SettingsIcon';
 
 
 const meta: Meta = {

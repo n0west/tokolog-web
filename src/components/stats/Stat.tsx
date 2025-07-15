@@ -18,7 +18,7 @@ const Stat: React.FC<StatProps> = ({ type, amount, className = "" }) => {
       </div>
       
       {/* 金額 */}
-      <div className="text-3xl font-bold text-gray-900 mb-3">
+      <div className="text-3xl font-bold text-primary mb-3">
         {amount.toLocaleString()} <span className="text-lg" style={{ color: isOtoku ? '#4C95E4' : '#F08372' }}>円</span>
       </div>
     </div>

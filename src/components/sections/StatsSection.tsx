@@ -1,5 +1,5 @@
 import React from 'react';
-import StatCard from './StatCard';
+import StatCard from '../cards/StatCard';
 
 interface StatsSectionProps {
   otokuAmount: number;
@@ -21,9 +21,9 @@ const StatsSection: React.FC<StatsSectionProps> = ({
   className = ""
 }) => {
   return (
-    <div className={`bg-white rounded-2xl p-6 shadow-sm ${className}`}>
+    <div className={`bg-white rounded-3xl p-6 border border-sub-border ${className}`}>
       {/* タイトル */}
-      <h2 className="text-xl font-bold text-tx-default mb-6">{title}</h2>
+      <h2 className="text-xl font-bold text-primary mb-6">{title}</h2>
       
       {/* StatCards */}
       <div className="flex">
@@ -35,7 +35,7 @@ const StatsSection: React.FC<StatsSectionProps> = ({
             showComparison={showComparison}
           />
         </div>
-        <div className="w-px bg-gray-200 mx-4"></div>
+        <div className="w-px bg-sub-border mx-4"></div>
         <div className="flex-1">
           <StatCard
             type="gaman"

@@ -1,5 +1,5 @@
 import React from 'react';
-import Stat from './Stat';
+import Stat from '../stats/Stat';
 
 interface RecordCardProps {
   type: 'otoku' | 'gaman';
@@ -31,9 +31,9 @@ const RecordCard: React.FC<RecordCardProps> = ({
             wordBreak: 'break-word'
           }}
         >
-          <div className="mb-3 text-tx-tertiary" style={{ textAlign: 'right' }}>{date}</div>
+          <div className="mb-3 text-tertiary" style={{ textAlign: 'right' }}>{date}</div>
           <div 
-            className="text-tx-secondary" 
+            className="text-secondary" 
             style={{ 
               textAlign: 'right',
               wordBreak: 'break-word',

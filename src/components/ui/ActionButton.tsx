@@ -1,8 +1,10 @@
 import React from 'react';
-import OtokuIcon from './OtokuIcon';
-import GamanIcon from './GamanIcon';
-import CameraIcon from './CameraIcon';
-import SettingsIcon from './SettingsIcon';
+import OtokuIcon from '../icons/OtokuIcon';
+import GamanIcon from '../icons/GamanIcon';
+import CameraIcon from '../icons/CameraIcon';
+import SettingsIcon from '../icons/SettingsIcon';
+import ManualIcon from '../icons/ManualIcon';
+import GalleryIcon from '../icons/GalleryIcon';
 
 interface ActionButtonProps {
   type: 'otoku' | 'gaman' | 'neutral';
@@ -47,25 +49,25 @@ const ActionButton: React.FC<ActionButtonProps> = ({
       case 'gallery':
         switch (type) {
           case 'otoku':
-            return "bg-otoku-light border-2 border-otoku hover:bg-blue-50 text-otoku";
+            return "bg-otoku-light border border-otoku hover:bg-blue-50 text-otoku";
           case 'gaman':
-            return "bg-gaman-light border-2 border-gaman hover:bg-red-50 text-gaman";
+            return "bg-gaman-light border border-gaman hover:bg-red-50 text-gaman";
           case 'neutral':
-            return "bg-gray-50 border-2 border-gray-300 hover:bg-gray-100 text-gray-700";
+            return "bg-home border border-sub-border hover:bg-gray-100 text-secondary";
           default:
-            return "bg-gray-50 border-2 border-gray-300 hover:bg-gray-100 text-gray-700";
+            return "bg-home border border-sub-border hover:bg-gray-100 text-secondary";
         }
       
       case 'default':
         switch (type) {
           case 'otoku':
-            return "bg-otoku border-2 border-otoku-border hover:opacity-90 text-white";
+            return "bg-otoku border border-otoku-border hover:opacity-90 text-white";
           case 'gaman':
-            return "bg-gaman border-2 border-gaman-border hover:opacity-90 text-white";
+            return "bg-gaman border border-gaman-border hover:opacity-90 text-white";
           case 'neutral':
-            return "bg-gray-600 border-2 border-gray-500 hover:bg-gray-700 text-white";
+            return "bg-primary border border-main-border hover:bg-gray-700 text-white";
           default:
-            return "bg-gray-600 border-2 border-gray-500 hover:bg-gray-700 text-white";
+            return "bg-primary border border-main-border hover:bg-gray-700 text-white";
         }
       
       case 'record':
@@ -76,9 +78,9 @@ const ActionButton: React.FC<ActionButtonProps> = ({
           case 'gaman':
             return "bg-gaman border-2 border-gaman-border hover:opacity-90 text-white";
           case 'neutral':
-            return "bg-gray-600 border-2 border-gray-500 hover:bg-gray-700 text-white";
+            return "bg-primary border-1 border-main-border hover:bg-gray-700 text-white";
           default:
-            return "bg-gray-600 border-2 border-gray-500 hover:bg-gray-700 text-white";
+            return "bg-primary border-1 border-main-border hover:bg-gray-700 text-white";
         }
     }
   };
@@ -89,13 +91,13 @@ const ActionButton: React.FC<ActionButtonProps> = ({
       case 'camera':
       case 'manual':
       case 'gallery':
-        return 24;
+        return 40;
       case 'settings':
-        return 24;
+        return 36;
       case 'default':
       case 'record':
       default:
-        return 32;
+        return 40;
     }
   };
 
@@ -140,11 +142,9 @@ const ActionButton: React.FC<ActionButtonProps> = ({
       case 'camera':
         return <CameraIcon width={iconSize} height={iconSize} color={iconColor} />;
       case 'manual':
-        // 手入力アイコン（指のアイコンなど）- 現在はCameraIconで代用
-        return <CameraIcon width={iconSize} height={iconSize} color={iconColor} />;
+        return <ManualIcon width={iconSize} height={iconSize} color={iconColor} />;
       case 'gallery':
-        // ギャラリーアイコン（画像アイコンなど）- 現在はCameraIconで代用
-        return <CameraIcon width={iconSize} height={iconSize} color={iconColor} />;
+        return <GalleryIcon width={iconSize} height={iconSize} color={iconColor} />;
       case 'settings':
         return <SettingsIcon width={iconSize} height={iconSize} color={iconColor} />;
       case 'default':
@@ -231,16 +231,20 @@ const ActionButton: React.FC<ActionButtonProps> = ({
         return (
           <>
             {/* アイコン部分 */}
-            <div className="bg-white rounded-full p-2 shadow-sm border border-gray-200 flex-shrink-0">
+            <div className={`bg-white rounded-full p-2 border flex-shrink-0 ${
+              type === 'otoku' ? 'border-otoku' : 
+              type === 'gaman' ? 'border-gaman' : 
+              'border-sub-border'
+            }`}>
               {getIcon()}
             </div>
             
             {/* テキスト部分 */}
             <div className="flex flex-col text-left">
-              <span className="text-lg font-bold">
+              <span className="text-lg font-bold text-primary">
                 {getTitle()}
               </span>
-              <span className="text-sm opacity-75">
+              <span className="text-sm text-secondary">
                 {getSubtitle()}
               </span>
             </div>
@@ -269,7 +273,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
         return (
           <div className="flex flex-col items-center space-y-2">
             {/* アイコン */}
-            <div className="bg-white rounded-full p-3 shadow-sm border border-gray-200">
+            <div className="bg-white rounded-full p-3 shadow-sm border border-sub-border">
               {getIcon()}
             </div>
             

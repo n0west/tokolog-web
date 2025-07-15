@@ -1,5 +1,5 @@
 import React from 'react';
-import ActionButton from './ActionButton';
+import ActionButton from '../ui/ActionButton';
 
 interface ActionSectionProps {
   onOtokuClick?: () => void;
@@ -19,10 +19,10 @@ const ActionSection: React.FC<ActionSectionProps> = ({
   isLoading = false
 }) => {
   return (
-    <div className={`bg-white rounded-2xl p-6 shadow-sm ${className}`}>
+    <div className={`bg-white rounded-3xl p-6 border border-sub-border ${className}`}>
       {/* タイトル */}
       {showTitle && (
-        <h2 className="text-xl font-bold text-tx-default mb-6">{title}</h2>
+        <h2 className="text-xl font-bold text-primary mb-6">{title}</h2>
       )}
       
       {/* ActionButtons - レスポンシブ対応 */}

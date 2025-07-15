@@ -1,5 +1,5 @@
 import React from 'react';
-import RecordCard from './RecordCard';
+import RecordCard from '../cards/RecordCard';
 
 interface RecordItem {
   id: string;

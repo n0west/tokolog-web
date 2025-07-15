@@ -5,6 +5,7 @@ import AmountInput from '../forms/AmountInput';
 import NumberInput from '../forms/NumberInput';
 import DropdownField from '../forms/DropdownField';
 import PreviewCard from '../cards/PreviewCard';
+import ActionButton from '../ui/ActionButton';
 
 interface ManualInputPageProps {
   type: 'otoku' | 'gaman';
@@ -183,16 +184,14 @@ const ManualInputPage: React.FC<ManualInputPageProps> = ({
         </div>
 
         {/* 登録ボタン */}
-        <button
+        <ActionButton
+          type={type}
+          variant="default"
           onClick={handleSubmit}
-          className={`
-            w-full py-4 px-6 rounded-lg font-bold text-white text-lg
-            transition-opacity duration-200
-            ${type === 'otoku' ? 'bg-otoku hover:opacity-90' : 'bg-gaman hover:opacity-90'}
-          `}
-        >
-          登録
-        </button>
+          title="登録"
+          subtitle=""
+          className="w-full"
+        />
       </div>
     </div>
   );

@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import StatsSection from './StatsSection';
 
 const meta: Meta<typeof StatsSection> = {
-  title: 'Components/StatsSection',
+  title: 'Components/Sections/StatsSection',
   component: StatsSection,
   parameters: {
     layout: 'centered',

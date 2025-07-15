@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import PreviewCard from './PreviewCard';
 
 const meta: Meta<typeof PreviewCard> = {
-  title: 'Components/PreviewCard',
+  title: 'Components/Cards/PreviewCard',
   component: PreviewCard,
   parameters: {
     layout: 'centered',

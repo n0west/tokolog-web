@@ -13,6 +13,7 @@ interface ActionButtonProps {
   disabled?: boolean;
   className?: string;
   subtitle?: string; // デフォルトボタン用にサブタイトルを任意に
+  title?: string; // カスタムタイトル
 }
 
 const ActionButton: React.FC<ActionButtonProps> = ({ 
@@ -21,7 +22,8 @@ const ActionButton: React.FC<ActionButtonProps> = ({
   onClick, 
   disabled = false,
   className = "",
-  subtitle
+  subtitle,
+  title
 }) => {
   // バリアント別の基本クラス
   const getBaseClasses = () => {
@@ -165,6 +167,11 @@ const ActionButton: React.FC<ActionButtonProps> = ({
 
   // タイトルテキスト
   const getTitle = () => {
+    // カスタムタイトルが指定されている場合はそれを使用
+    if (title !== undefined) {
+      return title;
+    }
+    
     switch (variant) {
       case 'camera':
         return '撮影';

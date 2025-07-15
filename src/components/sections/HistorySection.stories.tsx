@@ -42,7 +42,7 @@ const sampleRecords = [
 ];
 
 const meta: Meta<typeof HistorySection> = {
-  title: 'Components/HistorySection',
+  title: 'Sections/HistorySection',
   component: HistorySection,
   parameters: {
     layout: 'centered',

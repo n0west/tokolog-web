@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import ActionSection from './ActionSection';
 
 const meta: Meta<typeof ActionSection> = {
-  title: 'Components/ActionSection',
+  title: 'Sections/ActionSection',
   component: ActionSection,
   parameters: {
     layout: 'centered',

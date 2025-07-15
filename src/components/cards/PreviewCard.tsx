@@ -20,7 +20,7 @@ const PreviewCard: React.FC<PreviewCardProps> = ({
   const displayProductName = productName || '商品名を登録してください';
 
   return (
-    <div className={`bg-white p-6 w-full ${className}`}>
+    <div className={`bg-white p-6 w-full rounded-3xl ${className}`}>
       <div className="flex justify-between items-start gap-6">
         {/* 左側：Stat（金額情報）*/}
         <div className="flex-shrink-0">

@@ -9,7 +9,7 @@ import SettingsIcon from '../icons/SettingsIcon';
 
 
 const meta: Meta = {
-  title: 'Components/Icons',
+  title: 'Components/Icons/Icons',
   parameters: {
     layout: 'centered',
   },

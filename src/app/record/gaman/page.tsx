@@ -4,7 +4,7 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import RecordMethodPage from '@/components/pages/RecordMethodPage';
 
-export default function OtokuRecordPage() {
+export default function GamanRecordPage() {
   const router = useRouter();
 
   const handleBack = () => {
@@ -12,26 +12,23 @@ export default function OtokuRecordPage() {
   };
 
   const handleCameraClick = () => {
-    // カメラ撮影の処理
-    console.log('カメラ撮影が選択されました');
-    // router.push('/record/otoku/camera');
+    console.log('カメラ撮影が選択されました（ガマン）');
+    // 将来的に実装予定
   };
 
   const handleGalleryClick = () => {
-    // カメラロール選択の処理
-    console.log('カメラロールが選択されました');
-    // router.push('/record/otoku/gallery');
+    console.log('カメラロールが選択されました（ガマン）');
+    // 将来的に実装予定
   };
 
   const handleManualClick = () => {
-    // 手動入力の処理
-    console.log('手動入力が選択されました');
-    router.push('/record/otoku/manual');
+    console.log('手動入力が選択されました（ガマン）');
+    router.push('/record/gaman/manual');
   };
 
   return (
     <RecordMethodPage
-      type="otoku"
+      type="gaman"
       onBack={handleBack}
       onCameraClick={handleCameraClick}
       onGalleryClick={handleGalleryClick}

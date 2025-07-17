@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import ActionButton from './ActionButton';
 
 const meta: Meta<typeof ActionButton> = {
-  title: 'Components/UI/ActionButton',
+  title: 'UI/ActionButton',
   component: ActionButton,
   parameters: {
     layout: 'centered',
@@ -27,6 +27,10 @@ const meta: Meta<typeof ActionButton> = {
     subtitle: {
       control: { type: 'text' },
       description: 'カスタムサブタイトル（空文字で非表示）',
+    },
+    title: {
+      control: { type: 'text' },
+      description: 'カスタムタイトル（指定時はデフォルトタイトルを上書き）',
     },
     onClick: { 
       action: 'clicked',
@@ -147,6 +151,7 @@ export const ModalButtons: Story = {
         <div className="flex space-x-4">
           <ActionButton type="neutral" variant="default" subtitle="キャンセル" />
           <ActionButton type="otoku" variant="default" subtitle="保存" />
+          <ActionButton type="neutral" variant="default" title="OK" subtitle="" />
         </div>
       </div>
       <div>

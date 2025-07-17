@@ -7,27 +7,25 @@ import DropdownField from '../forms/DropdownField';
 import PreviewCard from '../cards/PreviewCard';
 import ActionButton from '../ui/ActionButton';
 
-interface ManualInputPageProps {
-  type: 'otoku' | 'gaman';
-  onBack?: () => void;
-  onSubmit?: (data: {
-    productName: string;
-    amount: string;
-    gamanReason?: string;
-    memo: string;
-  }) => void;
+import { ManualInputPageProps } from '@/types/database';
+
+interface ManualInputPagePropsExtended extends ManualInputPageProps {
   className?: string;
 }
 
-const ManualInputPage: React.FC<ManualInputPageProps> = ({
+const ManualInputPage: React.FC<ManualInputPagePropsExtended> = ({
   type,
   onBack,
   onSubmit,
+  isSubmitting = false,
   className = ""
 }) => {
   const [formData, setFormData] = useState({
     productName: '',
     amount: '',
+    originalAmount: '',
+    discountAmount: '',
+    calculationMethod: '',
     gamanReason: '',
     memo: ''
   });
@@ -63,7 +61,15 @@ const ManualInputPage: React.FC<ManualInputPageProps> = ({
     
     // エラーがない場合のみ送信
     if (!newErrors.productName && !newErrors.amount) {
-      onSubmit?.(formData);
+      onSubmit?.({
+        productName: formData.productName,
+        amount: parseInt(formData.amount),
+        originalAmount: formData.originalAmount ? parseInt(formData.originalAmount) : undefined,
+        discountAmount: formData.discountAmount ? parseInt(formData.discountAmount) : undefined,
+        calculationMethod: formData.calculationMethod,
+        gamanReason: formData.gamanReason,
+        memo: formData.memo
+      });
     }
   };
 
@@ -188,8 +194,9 @@ const ManualInputPage: React.FC<ManualInputPageProps> = ({
           type={type}
           variant="default"
           onClick={handleSubmit}
-          title="登録"
+          title={isSubmitting ? "登録中..." : "登録"}
           subtitle=""
+          disabled={isSubmitting}
           className="w-full"
         />
       </div>

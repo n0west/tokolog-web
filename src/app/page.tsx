@@ -86,7 +86,7 @@ export default function Home() {
   };
 
   const handleViewAllClick = () => {
-    router.push('/expenses');
+    router.push('/history');
   };
 
   const handleSettingsClick = () => {

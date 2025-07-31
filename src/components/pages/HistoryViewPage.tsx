@@ -86,7 +86,22 @@ const HistoryViewPage: React.FC<HistoryViewPageProps> = ({
 
     return sortedKeys.map(key => ({
       period: key,
-      records: groups[key].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+      records: groups[key].sort((a, b) => {
+        // まず日付で比較
+        const dateA = new Date(a.date).getTime();
+        const dateB = new Date(b.date).getTime();
+        
+        if (dateA !== dateB) {
+          return dateB - dateA; // 新しい日付が上
+        }
+        
+        // 同じ日付の場合は作成日時で比較（後に登録されたものが上）
+        if (a.created_at && b.created_at) {
+          return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+        }
+        
+        return 0;
+      })
     }));
   }, [filteredRecords]);
 

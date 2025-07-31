@@ -35,7 +35,8 @@ export default function HistoryPage() {
         .from('expenses')
         .select('*')
         .eq('user_id', user.id)
-        .order('expense_date', { ascending: false });
+        .order('expense_date', { ascending: false })
+        .order('created_at', { ascending: false });
 
       if (error) {
         console.error('データの取得に失敗しました:', error);
@@ -49,6 +50,7 @@ export default function HistoryPage() {
         amount: expense.discount_amount > 0 ? expense.discount_amount : expense.passed_amount,
         date: expense.expense_date,
         productName: expense.description,
+        created_at: expense.created_at,
       })) || [];
 
       setRecords(formattedRecords);

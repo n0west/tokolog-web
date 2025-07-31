@@ -7,6 +7,7 @@ interface NumberInputProps {
   suffix?: string; // "円"など
   error?: string;
   className?: string;
+  onClick?: () => void;
 }
 
 const NumberInput: React.FC<NumberInputProps> = ({
@@ -15,7 +16,8 @@ const NumberInput: React.FC<NumberInputProps> = ({
   placeholder = "",
   suffix,
   error,
-  className = ""
+  className = "",
+  onClick
 }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
@@ -32,6 +34,7 @@ const NumberInput: React.FC<NumberInputProps> = ({
         inputMode="numeric"
         value={value}
         onChange={handleChange}
+        onClick={onClick}
         placeholder={placeholder}
         className={`
           w-full px-4 py-3 text-primary bg-white border-2 rounded-lg

@@ -12,15 +12,11 @@ export default function OtokuRecordPage() {
   };
 
   const handleCameraClick = () => {
-    // カメラ撮影の処理
-    console.log('カメラ撮影が選択されました');
-    // router.push('/record/otoku/camera');
+    router.push('/record/otoku/camera');
   };
 
   const handleGalleryClick = () => {
-    // カメラロール選択の処理
-    console.log('カメラロールが選択されました');
-    // router.push('/record/otoku/gallery');
+    router.push('/record/otoku/gallery');
   };
 
   const handleManualClick = () => {

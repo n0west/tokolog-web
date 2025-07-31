@@ -24,6 +24,7 @@ export interface RecordData {
   amount: number;
   date: string;
   productName: string;
+  created_at?: string;
 }
 
 export interface FormData {

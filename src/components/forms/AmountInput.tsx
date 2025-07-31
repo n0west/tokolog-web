@@ -31,6 +31,7 @@ const AmountInput: React.FC<AmountInputProps> = ({
     discountRate: ''
   });
   const [calculatedAmount, setCalculatedAmount] = useState('');
+  const [calculationError, setCalculationError] = useState<string | null>(null);
 
   // 計算ロジック
   const calculateDiscount = () => {
@@ -44,24 +45,34 @@ const AmountInput: React.FC<AmountInputProps> = ({
       if (purchase > 0) {
         // 通常価格 - 購入価格
         result = regular - purchase;
+        
+        // 購入価格が通常価格以上の場合はエラー
+        if (purchase >= regular) {
+          return { value: '0', error: '購入価格が通常価格以上です。正しい金額を入力してください。' };
+        }
       } else if (rate > 0) {
         // 通常価格 × 割引率
         result = regular * (rate / 100);
+        
+        // 割引率が100%以上の場合はエラー
+        if (rate >= 100) {
+          return { value: '0', error: '割引率が100%以上です。正しい割引率を入力してください。' };
+        }
       }
     }
 
-    // 負の値は0にする
     result = Math.max(0, Math.round(result));
-    return result.toString();
+    return { value: result.toString(), error: null };
   };
 
   // 計算データ変更時に自動計算
   useEffect(() => {
     if (isExpanded && variant === 'calculated') {
-      const calculated = calculateDiscount();
-      setCalculatedAmount(calculated);
-      if (calculated !== '0') {
-        onChange(calculated);
+      const result = calculateDiscount();
+      setCalculatedAmount(result.value);
+      setCalculationError(result.error);
+      if (result.value !== '0' && !result.error) {
+        onChange(result.value);
       }
     }
   }, [calculationData, isExpanded, variant, onChange]);
@@ -81,12 +92,27 @@ const AmountInput: React.FC<AmountInputProps> = ({
         discountRate: ''
       });
       setCalculatedAmount('');
+      setCalculationError(null);
     }
   };
 
   const handleDirectInputChange = (newValue: string) => {
     if (!isExpanded) {
       onChange(newValue);
+    }
+  };
+
+  const handleDirectInputClick = () => {
+    if (isExpanded) {
+      // 展開状態の場合は格納する
+      setIsExpanded(false);
+      setCalculationData({
+        regularPrice: '',
+        purchasePrice: '',
+        discountRate: ''
+      });
+      setCalculatedAmount('');
+      setCalculationError(null);
     }
   };
 
@@ -109,10 +135,11 @@ const AmountInput: React.FC<AmountInputProps> = ({
         <NumberInput
           value={value}
           onChange={handleDirectInputChange}
+          onClick={handleDirectInputClick}
           placeholder={placeholder}
           suffix={suffix}
           error={error}
-          className={isExpanded ? 'opacity-50 pointer-events-none' : ''}
+          className={isExpanded ? 'opacity-50' : ''}
         />
         
         {error && (
@@ -127,7 +154,7 @@ const AmountInput: React.FC<AmountInputProps> = ({
           onClick={handleToggleExpanded}
           className="flex items-center justify-between w-full p-3 text-left bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors"
         >
-          <span className="text-sm font-medium text-secondary">
+          <span className="text-sm font-bold text-secondary">
             割引額の計算
           </span>
           <svg
@@ -203,8 +230,15 @@ const AmountInput: React.FC<AmountInputProps> = ({
             </div>
           </div>
 
+          {/* エラー表示 */}
+          {calculationError && (
+            <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+              <div className="text-sm text-red-600">{calculationError}</div>
+            </div>
+          )}
+
           {/* 計算結果表示 */}
-          {calculatedAmount && calculatedAmount !== '0' && (
+          {calculatedAmount && calculatedAmount !== '0' && !calculationError && (
             <div className="bg-white rounded-lg p-3 border border-sub-border">
               <div className="text-xs text-secondary mb-1">計算結果</div>
               <div className={`text-lg font-bold ${

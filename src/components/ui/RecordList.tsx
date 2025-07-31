@@ -1,5 +1,6 @@
 import React from 'react';
 import RecordCard from '../cards/RecordCard';
+import { RecordListContainer } from './List';
 
 interface RecordItem {
   id: string;
@@ -30,17 +31,18 @@ const RecordList: React.FC<RecordListProps> = ({
       )}
       
       {/* 記録リスト */}
-      <div className="space-y-3">
+      <RecordListContainer>
         {records.map((record) => (
-          <RecordCard
-            key={record.id}
-            type={record.type}
-            amount={record.amount}
-            date={record.date}
-            productName={record.productName}
-          />
+          <div key={record.id} className="p-0">
+            <RecordCard
+              type={record.type}
+              amount={record.amount}
+              date={record.date}
+              productName={record.productName}
+            />
+          </div>
         ))}
-      </div>
+      </RecordListContainer>
       
       {/* 空の状態 */}
       {records.length === 0 && (

@@ -41,7 +41,8 @@ export default function Home() {
         .select('*')
         .eq('user_id', user.id)
         .gte('expense_date', `${currentYear}-${currentMonth.toString().padStart(2, '0')}-01`)
-        .order('expense_date', { ascending: false });
+        .order('expense_date', { ascending: false })
+        .order('created_at', { ascending: false });
 
       if (error) {
         console.error('データの取得に失敗しました:', error);
@@ -66,6 +67,7 @@ export default function Home() {
         amount: expense.discount_amount > 0 ? expense.discount_amount : expense.passed_amount,
         date: new Date(expense.expense_date).toLocaleDateString('ja-JP'),
         productName: expense.description,
+        created_at: expense.created_at,
       })) || [];
 
       setRecentRecords(records);

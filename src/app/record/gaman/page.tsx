@@ -12,17 +12,14 @@ export default function GamanRecordPage() {
   };
 
   const handleCameraClick = () => {
-    console.log('カメラ撮影が選択されました（ガマン）');
-    // 将来的に実装予定
+    router.push('/record/gaman/camera');
   };
 
   const handleGalleryClick = () => {
-    console.log('カメラロールが選択されました（ガマン）');
-    // 将来的に実装予定
+    router.push('/record/gaman/gallery');
   };
 
   const handleManualClick = () => {
-    console.log('手動入力が選択されました（ガマン）');
     router.push('/record/gaman/manual');
   };
 

@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import ActionButton from './ActionButton';
 
 const meta: Meta<typeof ActionButton> = {
-  title: 'UI/ActionButton',
+  title: 'Components/Navigation/ActionButton',
   component: ActionButton,
   parameters: {
     layout: 'centered',

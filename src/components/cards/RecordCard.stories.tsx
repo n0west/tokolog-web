@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import RecordCard from './RecordCard';
 
 const meta: Meta<typeof RecordCard> = {
-  title: 'Components/Cards/RecordCard',
+  title: 'Components/Display/RecordCard',
   component: RecordCard,
   parameters: {
     layout: 'centered',

@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import CheckIcon from './CheckIcon';
 
 const meta: Meta<typeof CheckIcon> = {
-  title: 'Icons/CheckIcon',
+  title: 'Foundation/Icons/CheckIcon',
   component: CheckIcon,
   parameters: {
     layout: 'centered',

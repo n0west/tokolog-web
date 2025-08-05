@@ -6,7 +6,7 @@ import RecordList from './RecordList';
 import EditIcon from '../icons/EditIcon';
 
 const meta: Meta<typeof List> = {
-  title: 'UI/Lists/List',
+  title: 'Components/Layout/List',
   component: List,
   parameters: {
     layout: 'padded',

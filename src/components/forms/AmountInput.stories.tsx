@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import AmountInput from './AmountInput';
 
 const meta: Meta<typeof AmountInput> = {
-  title: 'Components/Forms/AmountInput',
+  title: 'Components/Form/AmountInput',
   component: AmountInput,
   parameters: {
     layout: 'centered',

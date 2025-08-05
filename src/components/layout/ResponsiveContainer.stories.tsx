@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import ResponsiveContainer from './ResponsiveContainer';
 
 const meta: Meta<typeof ResponsiveContainer> = {
-  title: 'Layout/ResponsiveContainer',
+  title: 'Components/Layout/ResponsiveContainer',
   component: ResponsiveContainer,
   parameters: {
     layout: 'fullscreen',

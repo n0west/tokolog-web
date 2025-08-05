@@ -9,7 +9,7 @@ import SettingsIcon from './SettingsIcon';
 
 
 const meta: Meta = {
-  title: 'Icons/Overview',
+  title: 'Foundation/Icons/Overview',
   parameters: {
     layout: 'centered',
   },

@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import DropdownField from './DropdownField';
 
 const meta: Meta<typeof DropdownField> = {
-  title: 'Components/Forms/DropdownField',
+  title: 'Components/Form/DropdownField',
   component: DropdownField,
   parameters: {
     layout: 'centered',

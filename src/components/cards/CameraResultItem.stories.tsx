@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import CameraResultItem from './CameraResultItem';
 
 const meta: Meta<typeof CameraResultItem> = {
-  title: 'UI/Lists/CameraResultItem',
+  title: 'Components/Media/CameraResultItem',
   component: CameraResultItem,
   parameters: {
     layout: 'padded',

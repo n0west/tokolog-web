@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import RecordList from './RecordList';
 
 const meta: Meta<typeof RecordList> = {
-  title: 'UI/Lists/RecordList',
+  title: 'Components/Layout/RecordList',
   component: RecordList,
   parameters: {
     layout: 'padded',

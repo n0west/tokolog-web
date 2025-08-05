@@ -6,6 +6,7 @@ import NumberInput from '../forms/NumberInput';
 import DropdownField from '../forms/DropdownField';
 import PreviewCard from '../cards/PreviewCard';
 import ActionButton from '../ui/ActionButton';
+import ResponsiveContainer from '../layout/ResponsiveContainer';
 
 import { ManualInputPageProps } from '@/types/database';
 
@@ -80,24 +81,25 @@ const ManualInputPage: React.FC<ManualInputPagePropsExtended> = ({
   };
 
   return (
-    <div className={`min-h-screen bg-home ${className}`}>
-      {/* ヘッダー */}
-      <div className="bg-home">
-        <div className="flex items-center justify-between p-4">
-          <button 
-            onClick={onBack}
-            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-            aria-label="戻る"
-          >
-            <BackIcon width={24} height={24} color="#374151" />
-          </button>
-          <h1 className="text-lg font-bold text-primary">{pageTitle}</h1>
-          <div className="w-8"></div>
-        </div>
-      </div>
+    <ResponsiveContainer variant="page" className={className}>
+      <div className="min-h-screen bg-home">
+        {/* ヘッダー */}
+        <ResponsiveContainer variant="content" className="py-4">
+          <div className="flex items-center justify-between">
+            <button 
+              onClick={onBack}
+              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+              aria-label="戻る"
+            >
+              <BackIcon width={24} height={24} color="#374151" />
+            </button>
+            <h1 className="text-lg font-bold text-primary">{pageTitle}</h1>
+            <div className="w-8"></div>
+          </div>
+        </ResponsiveContainer>
 
-      {/* メインコンテンツ */}
-      <div className="p-4 space-y-6">
+        {/* メインコンテンツ */}
+        <ResponsiveContainer variant="content" className="space-y-6 pb-4">
         {/* メインフォーム */}
         <div className="bg-white rounded-3xl p-6 border border-sub-border space-y-6">
           {/* 商品名フィールド */}
@@ -189,18 +191,19 @@ const ManualInputPage: React.FC<ManualInputPagePropsExtended> = ({
           />
         </div>
 
-        {/* 登録ボタン */}
-        <ActionButton
-          type={type}
-          variant="default"
-          onClick={handleSubmit}
-          title={isSubmitting ? "登録中..." : "登録"}
-          subtitle=""
-          disabled={isSubmitting}
-          className="w-full"
-        />
+          {/* 登録ボタン */}
+          <ActionButton
+            type={type}
+            variant="default"
+            onClick={handleSubmit}
+            title={isSubmitting ? "登録中..." : "登録"}
+            subtitle=""
+            disabled={isSubmitting}
+            className="w-full"
+          />
+        </ResponsiveContainer>
       </div>
-    </div>
+    </ResponsiveContainer>
   );
 };
 

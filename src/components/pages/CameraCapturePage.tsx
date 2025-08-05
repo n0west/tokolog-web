@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
+import ResponsiveContainer from '../layout/ResponsiveContainer';
 
 interface CameraCapturePageProps {
   type: 'otoku' | 'gaman';
@@ -97,7 +98,8 @@ const CameraCapturePage: React.FC<CameraCapturePageProps> = ({
   }
 
   return (
-    <div className={`min-h-screen bg-black flex flex-col ${className}`}>
+    <ResponsiveContainer variant="page" className={className}>
+      <div className="min-h-screen bg-black flex flex-col">
       {/* ステータスバー風のヘッダー */}
       <div className="flex justify-between items-center p-4 text-white text-sm">
         <span>16:20</span>
@@ -166,9 +168,10 @@ const CameraCapturePage: React.FC<CameraCapturePageProps> = ({
         </div>
       </div>
 
-      {/* 隠しキャンバス（撮影用） */}
-      <canvas ref={canvasRef} style={{ display: 'none' }} />
-    </div>
+        {/* 隠しキャンバス（撮影用） */}
+        <canvas ref={canvasRef} style={{ display: 'none' }} />
+      </div>
+    </ResponsiveContainer>
   );
 };
 

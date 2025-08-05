@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import BackIcon from '../icons/BackIcon';
 import ActionButton from '../ui/ActionButton';
+import ResponsiveContainer from '../layout/ResponsiveContainer';
 
 interface GallerySelectPageProps {
   type: 'otoku' | 'gaman';
@@ -54,24 +55,25 @@ const GallerySelectPage: React.FC<GallerySelectPageProps> = ({
   };
 
   return (
-    <div className={`min-h-screen bg-home ${className}`}>
-      {/* ヘッダー */}
-      <div className="bg-home">
-        <div className="flex items-center justify-between p-4">
-          <button 
-            onClick={onBack}
-            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-            aria-label="戻る"
-          >
-            <BackIcon width={24} height={24} color="#374151" />
-          </button>
-          <h1 className="text-lg font-bold text-primary">{pageTitle}</h1>
-          <div className="w-8"></div>
-        </div>
-      </div>
+    <ResponsiveContainer variant="page" className={className}>
+      <div className="min-h-screen bg-home">
+        {/* ヘッダー */}
+        <ResponsiveContainer variant="content" className="py-4">
+          <div className="flex items-center justify-between">
+            <button 
+              onClick={onBack}
+              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+              aria-label="戻る"
+            >
+              <BackIcon width={24} height={24} color="#374151" />
+            </button>
+            <h1 className="text-lg font-bold text-primary">{pageTitle}</h1>
+            <div className="w-8"></div>
+          </div>
+        </ResponsiveContainer>
 
-      {/* メインコンテンツ */}
-      <div className="p-4">
+        {/* メインコンテンツ */}
+        <ResponsiveContainer variant="content" className="pb-4">
         <div className="overflow-hidden">
           {/* タイトルエリア */}
           <div className={`${type === 'otoku' ? 'bg-otoku' : 'bg-gaman'} text-white font-bold text-center py-4 px-6 rounded-t-3xl`}>
@@ -110,17 +112,18 @@ const GallerySelectPage: React.FC<GallerySelectPageProps> = ({
             />
           </div>
         </div>
-      </div>
+        </ResponsiveContainer>
 
-      {/* 隠れたファイル入力 */}
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept="image/*"
-        onChange={handleFileSelect}
-        style={{ display: 'none' }}
-      />
-    </div>
+        {/* 隠れたファイル入力 */}
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          onChange={handleFileSelect}
+          style={{ display: 'none' }}
+        />
+      </div>
+    </ResponsiveContainer>
   );
 };
 

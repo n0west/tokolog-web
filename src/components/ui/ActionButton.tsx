@@ -238,7 +238,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
         return (
           <>
             {/* アイコン部分 */}
-            <div className={`bg-white rounded-full p-2 border flex-shrink-0 ${
+            <div className={`bg-white rounded-full p-1 border flex-shrink-0 ${
               type === 'otoku' ? 'border-otoku' : 
               type === 'gaman' ? 'border-gaman' : 
               'border-sub-border'
@@ -251,7 +251,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
               <span className="text-lg font-bold text-primary">
                 {getTitle()}
               </span>
-              <span className="text-sm text-secondary">
+              <span className="text-xs text-secondary">
                 {getSubtitle()}
               </span>
             </div>
@@ -268,7 +268,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
             
             {/* サブタイトル（条件付き表示） */}
             {getSubtitle() && (
-              <span className="text-sm opacity-90">
+              <span className="text-xs opacity-90">
                 {getSubtitle()}
               </span>
             )}
@@ -280,7 +280,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
         return (
           <div className="flex flex-col items-center space-y-2">
             {/* アイコン */}
-            <div className="bg-white rounded-full p-3 shadow-sm border border-sub-border">
+            <div className="bg-white rounded-full p-2 shadow-sm border border-sub-border">
               {getIcon()}
             </div>
             
@@ -290,7 +290,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
             </span>
             
             {/* サブタイトル */}
-            <span className="text-sm opacity-90">
+            <span className="text-xs opacity-90">
               {getSubtitle()}
             </span>
           </div>

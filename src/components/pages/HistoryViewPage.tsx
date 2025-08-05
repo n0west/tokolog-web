@@ -3,6 +3,7 @@ import BackIcon from '../icons/BackIcon';
 import FilterSection from '../sections/FilterSection';
 import TotalCard from '../cards/TotalCard';
 import HistoryItem from '../cards/HistoryItem';
+import ResponsiveContainer from '../layout/ResponsiveContainer';
 import { RecordData } from '@/types/database';
 
 interface HistoryViewPageProps {
@@ -117,24 +118,25 @@ const HistoryViewPage: React.FC<HistoryViewPageProps> = ({
   }, [filteredRecords]);
 
   return (
-    <div className={`min-h-screen bg-home ${className}`}>
-      {/* ヘッダー */}
-      <div className="bg-home">
-        <div className="flex items-center justify-between p-4">
-          <button 
-            onClick={onBack}
-            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-            aria-label="戻る"
-          >
-            <BackIcon width={24} height={24} color="#374151" />
-          </button>
-          <h1 className="text-lg font-bold text-primary">あなたのデータ</h1>
-          <div className="w-8"></div>
-        </div>
-      </div>
+    <ResponsiveContainer variant="page" className={className}>
+      <div className="min-h-screen bg-home">
+        {/* ヘッダー */}
+        <ResponsiveContainer variant="content" className="py-4">
+          <div className="flex items-center justify-between">
+            <button 
+              onClick={onBack}
+              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+              aria-label="戻る"
+            >
+              <BackIcon width={24} height={24} color="#374151" />
+            </button>
+            <h1 className="text-lg font-bold text-primary">あなたのデータ</h1>
+            <div className="w-8"></div>
+          </div>
+        </ResponsiveContainer>
 
-      {/* メインコンテンツ */}
-      <div className="p-4 space-y-4">
+        {/* メインコンテンツ */}
+        <ResponsiveContainer variant="content" className="space-y-4 pb-4">
         {/* フィルターセクション */}
         <FilterSection
           typeFilter={typeFilter}
@@ -196,8 +198,9 @@ const HistoryViewPage: React.FC<HistoryViewPageProps> = ({
             </div>
           </div>
         </div>
+        </ResponsiveContainer>
       </div>
-    </div>
+    </ResponsiveContainer>
   );
 };
 

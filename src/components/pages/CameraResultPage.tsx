@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import BackIcon from '../icons/BackIcon';
 import CameraResultItem from '../cards/CameraResultItem';
 import ActionButton from '../ui/ActionButton';
+import ResponsiveContainer from '../layout/ResponsiveContainer';
 
 interface CameraResultData {
   id: string;
@@ -60,24 +61,25 @@ const CameraResultPage: React.FC<CameraResultPageProps> = ({
   };
 
   return (
-    <div className={`min-h-screen bg-home ${className}`}>
-      {/* ヘッダー */}
-      <div className="bg-home">
-        <div className="flex items-center justify-between p-4">
-          <button 
-            onClick={onBack}
-            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-            aria-label="戻る"
-          >
-            <BackIcon width={24} height={24} color="#374151" />
-          </button>
-          <h1 className="text-lg font-bold text-primary">{pageTitle}</h1>
-          <div className="w-8"></div>
-        </div>
-      </div>
+    <ResponsiveContainer variant="page" className={className}>
+      <div className="min-h-screen bg-home">
+        {/* ヘッダー */}
+        <ResponsiveContainer variant="content" className="py-4">
+          <div className="flex items-center justify-between">
+            <button 
+              onClick={onBack}
+              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+              aria-label="戻る"
+            >
+              <BackIcon width={24} height={24} color="#374151" />
+            </button>
+            <h1 className="text-lg font-bold text-primary">{pageTitle}</h1>
+            <div className="w-8"></div>
+          </div>
+        </ResponsiveContainer>
 
-      {/* メインコンテンツ */}
-      <div className="p-4 space-y-4">
+        {/* メインコンテンツ */}
+        <ResponsiveContainer variant="content" className="space-y-4 pb-4">
         {/* 結果表示カード */}
         <div className="bg-white rounded-3xl p-6 border border-sub-border">
           {/* 撮影画像 */}
@@ -128,20 +130,21 @@ const CameraResultPage: React.FC<CameraResultPageProps> = ({
           )}
         </div>
 
-        {/* 登録ボタン */}
-        {results.length > 0 && (
-          <ActionButton
-            type={type}
-            variant="default"
-            title={isRegistering ? "登録中..." : "すべて登録"}
-            subtitle=""
-            onClick={handleRegisterAll}
-            disabled={isRegistering || editingId !== null}
-            className="w-full"
-          />
-        )}
+          {/* 登録ボタン */}
+          {results.length > 0 && (
+            <ActionButton
+              type={type}
+              variant="default"
+              title={isRegistering ? "登録中..." : "すべて登録"}
+              subtitle=""
+              onClick={handleRegisterAll}
+              disabled={isRegistering || editingId !== null}
+              className="w-full"
+            />
+          )}
+        </ResponsiveContainer>
       </div>
-    </div>
+    </ResponsiveContainer>
   );
 };
 

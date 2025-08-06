@@ -63,13 +63,11 @@ export default function HistoryPage() {
   };
 
   const handleBack = () => {
-    router.back();
+    router.push('/');
   };
 
-  const handleEdit = (id: string) => {
-    // 編集機能は後で実装予定
-    console.log(`編集: ${id}`);
-    alert('編集機能は開発中です');
+  const handleNavigateToEdit = (id: string) => {
+    router.push(`/edit-record/${id}`);
   };
 
   if (loading || dataLoading) {
@@ -88,7 +86,7 @@ export default function HistoryPage() {
     <HistoryViewPage
       records={records}
       onBack={handleBack}
-      onEdit={handleEdit}
+      onNavigateToEdit={handleNavigateToEdit}
     />
   );
 }

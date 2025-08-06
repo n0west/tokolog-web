@@ -6,6 +6,8 @@ import CameraIcon from './CameraIcon';
 import ManualIcon from './ManualIcon';
 import GalleryIcon from './GalleryIcon';
 import SettingsIcon from './SettingsIcon';
+import ChevronRightIcon from './ChevronRightIcon';
+import TrashIcon from './TrashIcon';
 
 
 const meta: Meta = {
@@ -81,9 +83,17 @@ export const IconSet: StoryObj = {
         <GalleryIcon />
         <p className="mt-2 text-sm text-gray-600">カメラロール</p>
       </div>
-      <div className="items-center">
+      <div className="text-center">
         <SettingsIcon />
-        <p className="mt-2 text-sm text-gray-600">カメラロール</p>
+        <p className="mt-2 text-sm text-gray-600">設定</p>
+      </div>
+      <div className="text-center">
+        <ChevronRightIcon />
+        <p className="mt-2 text-sm text-gray-600">次へ</p>
+      </div>
+      <div className="text-center">
+        <TrashIcon />
+        <p className="mt-2 text-sm text-gray-600">削除</p>
       </div>
     </div>
   ),
@@ -110,6 +120,18 @@ export const SizeVariations: StoryObj = {
         <CameraIcon width={32} height={32} />
         <CameraIcon width={40} height={40} />
         <CameraIcon width={64} height={64} />
+      </div>
+      <div className="flex items-center space-x-4">
+        <ChevronRightIcon width={24} height={24} />
+        <ChevronRightIcon width={32} height={32} />
+        <ChevronRightIcon width={40} height={40} />
+        <ChevronRightIcon width={64} height={64} />
+      </div>
+      <div className="flex items-center space-x-4">
+        <TrashIcon width={24} height={24} />
+        <TrashIcon width={32} height={32} />
+        <TrashIcon width={40} height={40} />
+        <TrashIcon width={64} height={64} />
       </div>
     </div>
   ),

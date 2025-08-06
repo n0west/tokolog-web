@@ -9,14 +9,14 @@ import { RecordData } from '@/types/database';
 interface HistoryViewPageProps {
   records: RecordData[];
   onBack?: () => void;
-  onEdit?: (id: string) => void;
+  onNavigateToEdit?: (id: string) => void;
   className?: string;
 }
 
 const HistoryViewPage: React.FC<HistoryViewPageProps> = ({
   records,
   onBack,
-  onEdit,
+  onNavigateToEdit,
   className = ''
 }) => {
   const [typeFilter, setTypeFilter] = useState('all');
@@ -187,7 +187,7 @@ const HistoryViewPage: React.FC<HistoryViewPageProps> = ({
                           amount={record.amount}
                           date={record.date}
                           productName={record.productName}
-                          onEdit={onEdit}
+                          onNavigateToEdit={onNavigateToEdit}
                           className={index < group.records.length - 1 ? 'border-b border-gray-100' : ''}
                         />
                       ))}

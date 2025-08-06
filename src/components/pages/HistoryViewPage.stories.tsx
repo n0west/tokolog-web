@@ -22,9 +22,9 @@ const meta: Meta<typeof HistoryViewPage> = {
       action: '戻る',
       description: '戻るボタンクリック時のコールバック',
     },
-    onEdit: {
-      action: '編集',
-      description: '編集ボタンクリック時のコールバック',
+    onNavigateToEdit: {
+      action: '編集ページに遷移',
+      description: '編集ページ遷移時のコールバック',
     },
   },
 };
@@ -82,6 +82,8 @@ const sampleRecords = [
 export const Default: Story = {
   args: {
     records: sampleRecords,
+    onBack: () => console.log('戻る'),
+    onNavigateToEdit: (id) => console.log('編集ページに遷移:', id),
   },
 };
 
@@ -89,6 +91,8 @@ export const Default: Story = {
 export const Empty: Story = {
   args: {
     records: [],
+    onBack: () => console.log('戻る'),
+    onNavigateToEdit: (id) => console.log('編集ページに遷移:', id),
   },
 };
 
@@ -102,5 +106,7 @@ export const ManyRecords: Story = {
       date: `2025-${String(Math.floor(Math.random() * 12) + 1).padStart(2, '0')}-${String(Math.floor(Math.random() * 28) + 1).padStart(2, '0')}`,
       productName: ['もやし', 'ブランドバッグ', 'コーヒー豆', '野菜セット', 'お菓子'][Math.floor(Math.random() * 5)],
     })),
+    onBack: () => console.log('戻る'),
+    onNavigateToEdit: (id) => console.log('編集ページに遷移:', id),
   },
 };

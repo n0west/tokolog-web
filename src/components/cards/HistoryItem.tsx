@@ -1,5 +1,5 @@
 import React from 'react';
-import EditIcon from '../icons/EditIcon';
+import ChevronRightIcon from '../icons/ChevronRightIcon';
 
 interface HistoryItemProps {
   id: string;
@@ -7,7 +7,7 @@ interface HistoryItemProps {
   amount: number;
   date: string;
   productName: string;
-  onEdit?: (id: string) => void;
+  onNavigateToEdit?: (id: string) => void;
   className?: string;
 }
 
@@ -17,13 +17,14 @@ const HistoryItem: React.FC<HistoryItemProps> = ({
   amount,
   date,
   productName,
-  onEdit,
+  onNavigateToEdit,
   className = ''
 }) => {
   const isOtoku = type === 'otoku';
   const typeLabel = isOtoku ? 'おトク' : 'ガマン';
   const typeColor = isOtoku ? 'text-otoku' : 'text-gaman';
-  const amountColor = isOtoku ? 'text-otoku' : 'text-gaman';
+  const amountColor = 'text-primary'; // 金額の色を統一
+  const unitColor = isOtoku ? 'text-otoku' : 'text-gaman'; // 「円」の色
 
   const formatAmount = (amount: number) => {
     return amount.toLocaleString();
@@ -35,14 +36,17 @@ const HistoryItem: React.FC<HistoryItemProps> = ({
   };
 
   return (
-    <div className={`flex items-center justify-between py-4 ${className}`}>
+    <div 
+      className={`flex items-center justify-between py-4 cursor-pointer hover:bg-gray-50 transition-colors ${className}`}
+      onClick={() => onNavigateToEdit?.(id)}
+    >
       {/* 左側：タイプと金額 */}
       <div className="flex-1">
         <div className={`text-sm font-medium ${typeColor} mb-1`}>
           {typeLabel}
         </div>
         <div className={`text-2xl font-bold ${amountColor}`}>
-          {formatAmount(amount)} <span className="text-base">円</span>
+          {formatAmount(amount)} <span className={`text-base ${unitColor}`}>円</span>
         </div>
       </div>
 
@@ -57,14 +61,10 @@ const HistoryItem: React.FC<HistoryItemProps> = ({
           </div>
         </div>
         
-        {onEdit && (
-          <button
-            onClick={() => onEdit(id)}
-            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-            aria-label="編集"
-          >
-            <EditIcon width={20} height={20} color="#9CA3AF" />
-          </button>
+        {onNavigateToEdit && (
+          <div className="flex-shrink-0">
+            <ChevronRightIcon width={20} height={20} color="#9CA3AF" />
+          </div>
         )}
       </div>
     </div>

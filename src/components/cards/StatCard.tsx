@@ -17,7 +17,7 @@ const StatCard: React.FC<StatCardProps> = ({
   const isPositive = comparison ? comparison > 0 : false;
   
   return (
-    <div className="bg-white p-6">
+    <div className="bg-white p-2">
       <Stat type={type} amount={amount} />
       
       {/* 先月比（条件付き表示） */}

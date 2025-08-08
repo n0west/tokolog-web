@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import EditIcon from '../icons/EditIcon';
+import ChevronRightIcon from '../icons/ChevronRightIcon';
 
 interface CameraResultItemProps {
   id: string;
@@ -11,7 +11,9 @@ interface CameraResultItemProps {
   onEdit: (id: string) => void;
   onSave: (id: string, data: { amount: number; productName: string }) => void;
   onCancel: (id: string) => void;
+  onNavigateToEdit?: (id: string, data: { amount: number; productName: string; type: string }) => void;
   className?: string;
+  confidence?: number;
 }
 
 const CameraResultItem: React.FC<CameraResultItemProps> = ({
@@ -24,10 +26,38 @@ const CameraResultItem: React.FC<CameraResultItemProps> = ({
   onEdit,
   onSave,
   onCancel,
-  className = ''
+  onNavigateToEdit,
+  className = '',
+  confidence,
 }) => {
   const [editAmount, setEditAmount] = useState(amount.toString());
   const [editProductName, setEditProductName] = useState(productName);
+
+  // 信頼度に基づくスタイリング
+  const getConfidenceStyle = (confidence: number | undefined) => {
+    if (!confidence) return '';
+    
+    if (confidence < 0.3) {
+      return 'border-red-200 bg-red-50'; // 低信頼度: 赤
+    } else if (confidence < 0.7) {
+      return 'border-yellow-200 bg-yellow-50'; // 中信頼度: 黄
+    } else {
+      return 'border-green-200 bg-green-50'; // 高信頼度: 緑
+    }
+  };
+
+  // 信頼度アイコン
+  const getConfidenceIcon = (confidence: number | undefined) => {
+    if (!confidence) return null;
+    
+    if (confidence < 0.3) {
+      return <span className="text-red-500 text-xs">⚠️</span>;
+    } else if (confidence < 0.7) {
+      return <span className="text-yellow-500 text-xs">⚡</span>;
+    } else {
+      return <span className="text-green-500 text-xs">✓</span>;
+    }
+  };
 
   const isOtoku = type === 'otoku';
   const typeLabel = isOtoku ? 'おトク' : 'ガマン';
@@ -110,18 +140,34 @@ const CameraResultItem: React.FC<CameraResultItemProps> = ({
   }
 
   return (
-    <div className={`flex items-center justify-between p-4 ${className}`}>
+    <button
+      onClick={() => {
+        if (onNavigateToEdit) {
+          onNavigateToEdit(id, { amount, productName, type });
+        } else {
+          onEdit(id);
+        }
+      }}
+      className={`w-full flex items-center justify-between p-4 rounded-lg ${className} ${getConfidenceStyle(confidence)} hover:bg-gray-100 hover:shadow-sm transition-all duration-200 text-left`}
+      aria-label="データを編集"
+    >
       {/* 左側：タイプと金額 */}
       <div className="flex-1">
-        <div className={`text-sm font-bold ${typeColor} mb-1`}>
+        <div className={`text-sm font-bold ${typeColor} mb-1 flex items-center gap-1`}>
           {typeLabel}
+          {getConfidenceIcon(confidence)}
         </div>
         <div className="text-2xl font-bold text-primary">
           {formatAmount(amount)} <span className={`text-base ${typeColor}`}>円</span>
         </div>
+        {confidence !== undefined && (
+          <div className="text-xs text-gray-500 mt-1">
+            信頼度: {Math.round(confidence * 100)}%
+          </div>
+        )}
       </div>
 
-      {/* 右側：日付、商品名、編集ボタン */}
+      {/* 右側：日付、商品名、編集アイコン */}
       <div className="flex items-center space-x-4">
         <div className="text-right">
           <div className="text-xs text-tertiary mb-1">
@@ -132,15 +178,11 @@ const CameraResultItem: React.FC<CameraResultItemProps> = ({
           </div>
         </div>
         
-        <button
-          onClick={() => onEdit(id)}
-          className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-          aria-label="編集"
-        >
-          <EditIcon width={20} height={20} color="#3B82F6" />
-        </button>
+        <div className="p-2 rounded-full">
+          <ChevronRightIcon width={20} height={20} color="#6B7280" />
+        </div>
       </div>
-    </div>
+    </button>
   );
 };
 

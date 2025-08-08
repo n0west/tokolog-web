@@ -8,9 +8,9 @@ import EditRecordPage from '@/components/pages/EditRecordPage';
 import { RecordData, FormData } from '@/types/database';
 
 interface EditRecordPageWrapperProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export default function EditRecordPageWrapper({ params }: EditRecordPageWrapperProps) {
@@ -19,6 +19,15 @@ export default function EditRecordPageWrapper({ params }: EditRecordPageWrapperP
   const [recordData, setRecordData] = useState<RecordData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [recordId, setRecordId] = useState<string>('');
+
+  useEffect(() => {
+    const getParams = async () => {
+      const resolvedParams = await params;
+      setRecordId(resolvedParams.id);
+    };
+    getParams();
+  }, [params]);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -27,10 +36,10 @@ export default function EditRecordPageWrapper({ params }: EditRecordPageWrapperP
   }, [user, loading, router]);
 
   useEffect(() => {
-    if (user) {
+    if (user && recordId) {
       fetchRecord();
     }
-  }, [user, params.id]);
+  }, [user, recordId]);
 
   const fetchRecord = async () => {
     if (!user) return;
@@ -38,10 +47,27 @@ export default function EditRecordPageWrapper({ params }: EditRecordPageWrapperP
     setIsLoading(true);
     
     try {
+      // カメラ結果からの一時データをチェック
+      const cameraEditData = sessionStorage.getItem('cameraEditData');
+      if (cameraEditData && recordId.startsWith('camera-')) {
+        const tempData = JSON.parse(cameraEditData);
+        setRecordData({
+          id: recordId, // カメラ結果用の一時ID
+          type: tempData.discount_amount > 0 ? 'otoku' : 'gaman',
+          amount: tempData.discount_amount > 0 ? tempData.discount_amount : tempData.passed_amount,
+          date: tempData.expense_date,
+          productName: tempData.description,
+          created_at: new Date().toISOString(),
+        } as RecordData);
+        setIsLoading(false);
+        return;
+      }
+
+      // 通常の記録データを取得
       const { data: expense, error } = await supabase
         .from('expenses')
         .select('*')
-        .eq('id', parseInt(params.id))
+        .eq('id', parseInt(recordId))
         .eq('user_id', user.id)
         .single();
 
@@ -96,7 +122,7 @@ export default function EditRecordPageWrapper({ params }: EditRecordPageWrapperP
       const { error } = await supabase
         .from('expenses')
         .update(updateData)
-        .eq('id', parseInt(params.id))
+        .eq('id', parseInt(recordId))
         .eq('user_id', user.id);
 
       if (error) {
@@ -179,7 +205,7 @@ export default function EditRecordPageWrapper({ params }: EditRecordPageWrapperP
 
   return (
     <EditRecordPage
-      recordId={params.id}
+      recordId={recordId}
       initialData={recordData}
       onSave={handleSave}
       onDelete={handleDelete}

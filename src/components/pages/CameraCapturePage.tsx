@@ -99,27 +99,11 @@ const CameraCapturePage: React.FC<CameraCapturePageProps> = ({
 
   return (
     <ResponsiveContainer variant="page" className={className}>
-      <div className="min-h-screen bg-black flex flex-col">
-      {/* ステータスバー風のヘッダー */}
-      <div className="flex justify-between items-center p-4 text-white text-sm">
-        <span>16:20</span>
-        <div className="flex items-center space-x-1">
-          <div className="flex space-x-1">
-            <div className="w-1 h-3 bg-white rounded-full"></div>
-            <div className="w-1 h-3 bg-white rounded-full"></div>
-            <div className="w-1 h-3 bg-white rounded-full"></div>
-            <div className="w-1 h-3 bg-white rounded-full"></div>
-          </div>
-          <div className="w-6 h-3 border border-white rounded-sm">
-            <div className="w-4 h-1 bg-white rounded-sm m-px"></div>
-          </div>
+      <div className="h-screen bg-black flex flex-col overflow-hidden">
+        {/* 指示テキスト */}
+        <div className="text-center py-6">
+          <h1 className="text-white text-lg font-medium">{instructionText}</h1>
         </div>
-      </div>
-
-      {/* 指示テキスト */}
-      <div className="text-center py-4">
-        <h1 className="text-white text-lg font-medium">{instructionText}</h1>
-      </div>
 
       {/* カメラビューエリア */}
       <div className="flex-1 relative overflow-hidden">
@@ -144,7 +128,7 @@ const CameraCapturePage: React.FC<CameraCapturePageProps> = ({
       </div>
 
       {/* コントロールエリア */}
-      <div className="p-8 flex items-center justify-center">
+      <div className="p-6 flex items-center justify-center">
         <div className="flex items-center justify-between w-full max-w-xs">
           {/* キャンセルボタン */}
           <button
@@ -168,8 +152,8 @@ const CameraCapturePage: React.FC<CameraCapturePageProps> = ({
         </div>
       </div>
 
-        {/* 隠しキャンバス（撮影用） */}
-        <canvas ref={canvasRef} style={{ display: 'none' }} />
+      {/* 隠しキャンバス（撮影用） */}
+      <canvas ref={canvasRef} style={{ display: 'none' }} />
       </div>
     </ResponsiveContainer>
   );

@@ -71,7 +71,7 @@ export default function OtokuManualPage() {
     } catch (error) {
       console.error('データの保存に失敗しました:', error);
       console.error('エラー詳細:', JSON.stringify(error, null, 2));
-      alert(`データの保存に失敗しました。\n\nエラー詳細: ${error.message || JSON.stringify(error)}`);
+      alert(`データの保存に失敗しました。\n\nエラー詳細: ${error instanceof Error ? error.message : JSON.stringify(error)}`);
     } finally {
       setIsSubmitting(false);
     }

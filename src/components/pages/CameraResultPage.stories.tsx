@@ -41,7 +41,7 @@ export const OtokuDefault: Story = {
     imageData: mockImageData,
     extractedData: mockExtractedData,
     onBack: () => console.log('Back clicked'),
-    onRegisterAll: (data) => console.log('Register all:', data),
+    onRegisterAll: (data: any) => console.log('Register all:', data),
     isRegistering: false,
   },
 };
@@ -63,7 +63,7 @@ export const GamanDefault: Story = {
       }
     ],
     onBack: () => console.log('Back clicked'),
-    onRegisterAll: (data) => console.log('Register all:', data),
+    onRegisterAll: (data: any) => console.log('Register all:', data),
     isRegistering: false,
   },
 };
@@ -74,7 +74,7 @@ export const Registering: Story = {
     imageData: mockImageData,
     extractedData: mockExtractedData,
     onBack: () => console.log('Back clicked'),
-    onRegisterAll: (data) => console.log('Register all:', data),
+    onRegisterAll: (data: any) => console.log('Register all:', data),
     isRegistering: true,
   },
 };
@@ -85,7 +85,7 @@ export const EmptyResults: Story = {
     imageData: mockImageData,
     extractedData: [],
     onBack: () => console.log('Back clicked'),
-    onRegisterAll: (data) => console.log('Register all:', data),
+    onRegisterAll: (data: any) => console.log('Register all:', data),
     isRegistering: false,
   },
 };
@@ -102,7 +102,7 @@ export const SingleItem: Story = {
       }
     ],
     onBack: () => console.log('Back clicked'),
-    onRegisterAll: (data) => console.log('Register all:', data),
+    onRegisterAll: (data: any) => console.log('Register all:', data),
     isRegistering: false,
   },
 };

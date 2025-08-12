@@ -45,3 +45,8 @@ storybook-static
 
 # AI用の指示ファイル
 AI_INSTRUCTIONS.md
+
+# Google Cloud認証キー（機密情報）
+tokolog-vision-key.json
+*-key.json
+*-credentials.json

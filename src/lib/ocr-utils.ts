@@ -21,7 +21,11 @@ export interface CameraResultData {
   id: string;
   amount: number;
   productName: string;
+  memo?: string;          // メモフィールド追加
   confidence?: number;
+  source?: 'ocr' | 'manual';  // データソース追加
+  createdAt?: string;     // 作成日時
+  updatedAt?: string;     // 更新日時
 }
 
 // Base64画像データをBlobに変換
@@ -116,7 +120,11 @@ export function convertOCRToCameraData(ocrResponse: OCRResponse, type: 'otoku' |
       id: (index + 1).toString(),
       amount: item.amount,
       productName: item.productName,
+      memo: '',  // 空のメモで初期化
       confidence: item.confidence,
+      source: 'ocr' as const,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     }));
   }
   
@@ -141,7 +149,11 @@ export function convertOCRToCameraData(ocrResponse: OCRResponse, type: 'otoku' |
         id: '1',
         amount,
         productName: extractedData.productName,
+        memo: '',  // 空のメモで初期化
         confidence: extractedData.confidence,
+        source: 'ocr',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
       });
     }
   }
@@ -156,7 +168,11 @@ export function convertOCRToCameraData(ocrResponse: OCRResponse, type: 'otoku' |
       id: '1',
       amount: fallbackAmount,
       productName: fallbackProductName,
+      memo: '',  // 空のメモで初期化
       confidence: extractedData.confidence,
+      source: 'ocr',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     });
   }
   

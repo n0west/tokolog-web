@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import BackIcon from '../icons/BackIcon';
 import CameraResultItem from '../cards/CameraResultItem';
 import ActionButton from '../ui/ActionButton';
@@ -51,13 +51,7 @@ const CameraResultPage: React.FC<CameraResultPageProps> = ({
   onNavigateToEdit,
   onAddNewItem
 }) => {
-  const [results, setResults] = useState<CameraResultData[]>(extractedData);
-  const [editingId, setEditingId] = useState<string | null>(null);
-
-  // extractedDataの変更を監視してresultsを同期
-  useEffect(() => {
-    setResults(extractedData);
-  }, [extractedData]);
+  // インライン編集機能を削除し、ページ遷移編集に統一
 
   const pageTitle = type === 'otoku' ? 'おトクを記録する' : 'ガマンを記録する';
   const currentDate = new Date().toLocaleDateString('ja-JP', {
@@ -66,25 +60,10 @@ const CameraResultPage: React.FC<CameraResultPageProps> = ({
     day: 'numeric'
   });
 
-  const handleEdit = (id: string) => {
-    setEditingId(id);
-  };
-
-  const handleSave = (id: string, newData: { amount: number; productName: string }) => {
-    setResults(prev => prev.map(item => 
-      item.id === id 
-        ? { ...item, amount: newData.amount, productName: newData.productName }
-        : item
-    ));
-    setEditingId(null);
-  };
-
-  const handleCancel = (id: string) => {
-    setEditingId(null);
-  };
+  // インライン編集機能を削除（ページ遷移編集のみ使用）
 
   const handleRegisterAll = () => {
-    onRegisterAll(results);
+    onRegisterAll(extractedData);
   };
 
   return (
@@ -247,7 +226,7 @@ const CameraResultPage: React.FC<CameraResultPageProps> = ({
             </div>
           ) : (
             <div className="space-y-2">
-              {results.map((item, index) => (
+              {extractedData.map((item, index) => (
                 <CameraResultItem
                   key={item.id}
                   id={item.id}
@@ -255,13 +234,13 @@ const CameraResultPage: React.FC<CameraResultPageProps> = ({
                   amount={item.amount}
                   productName={item.productName}
                   date={currentDate}
-                  isEditing={editingId === item.id}
-                  onEdit={handleEdit}
-                  onSave={handleSave}
-                  onCancel={handleCancel}
+                  isEditing={false}
+                  onEdit={() => {}}
+                  onSave={() => {}}
+                  onCancel={() => {}}
                   onNavigateToEdit={onNavigateToEdit}
                   confidence={item.confidence}
-                  className={index < results.length - 1 ? 'mb-2' : ''}
+                  className={index < extractedData.length - 1 ? 'mb-2' : ''}
                 />
               ))}
               
@@ -282,7 +261,7 @@ const CameraResultPage: React.FC<CameraResultPageProps> = ({
           )}
 
           {/* 結果が空の場合 */}
-          {results.length === 0 && (
+          {extractedData.length === 0 && (
             <div className="text-center py-8 text-secondary">
               読み取り結果がありません
             </div>
@@ -290,14 +269,14 @@ const CameraResultPage: React.FC<CameraResultPageProps> = ({
         </div>
 
           {/* 登録ボタン */}
-          {results.length > 0 && (
+          {extractedData.length > 0 && (
             <ActionButton
               type={type}
               variant="default"
               title={isRegistering ? "登録中..." : "すべて登録"}
               subtitle=""
               onClick={handleRegisterAll}
-              disabled={isRegistering || editingId !== null}
+              disabled={isRegistering}
               className="w-full"
             />
           )}

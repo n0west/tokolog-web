@@ -5,13 +5,13 @@ export async function testSupabaseConnection() {
     const { data, error } = await supabase.from('expenses').select('count(*)').limit(1);
     if (error) {
       console.error('Supabase接続テストエラー:', error);
-      return { success: false, error: error.message };
+      return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
     }
     console.log('Supabase接続テスト成功:', data);
     return { success: true, data };
   } catch (error) {
     console.error('Supabase接続テストで例外発生:', error);
-    return { success: false, error: error.message };
+    return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
   }
 }
 
@@ -24,13 +24,13 @@ export async function getTableInfo(tableName: string) {
     
     if (error) {
       console.error(`テーブル ${tableName} の情報取得エラー:`, error);
-      return { success: false, error: error.message };
+      return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
     }
     
     console.log(`テーブル ${tableName} の情報:`, data);
     return { success: true, data };
   } catch (error) {
     console.error(`テーブル ${tableName} の情報取得で例外発生:`, error);
-    return { success: false, error: error.message };
+    return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
   }
 }

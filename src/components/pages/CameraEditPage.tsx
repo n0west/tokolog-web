@@ -14,6 +14,7 @@ export interface CameraEditItem {
   id: string;
   productName: string;
   amount: number;
+  memo?: string;         // メモフィールド追加
   confidence?: number;
 }
 
@@ -170,6 +171,24 @@ const CameraEditPage: React.FC<CameraEditPageProps> = ({
                 />
               </FormField>
             )}
+
+            {/* メモフィールド */}
+            <FormField
+              label="メモ"
+              required={false}
+            >
+              <textarea
+                value={item.memo || ''}
+                onChange={(e) => updateItem('memo', e.target.value)}
+                placeholder="メモを入力してください（任意）"
+                rows={3}
+                className={`
+                  w-full px-4 py-3 text-primary bg-white border-2 rounded-lg
+                  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                  border-sub-border resize-none
+                `}
+              />
+            </FormField>
           </div>
 
           {/* プレビューエリア */}

@@ -142,10 +142,9 @@ const CameraResultItem: React.FC<CameraResultItemProps> = ({
   return (
     <button
       onClick={() => {
+        // ページ遷移編集に統一
         if (onNavigateToEdit) {
           onNavigateToEdit(id, { amount, productName, type });
-        } else {
-          onEdit(id);
         }
       }}
       className={`w-full flex items-center justify-between p-4 rounded-lg ${className} ${getConfidenceStyle(confidence)} hover:bg-gray-100 hover:shadow-sm transition-all duration-200 text-left`}

@@ -61,7 +61,7 @@ export const OtokuResults: Story = {
     type: 'otoku',
     imageData: mockReceiptImage,
     extractedData: mockOtokuData,
-    onDataChange: (data) => console.log('Data changed:', data),
+    onDataChange: (data: any) => console.log('Data changed:', data),
   },
 };
 
@@ -71,7 +71,7 @@ export const GamanResults: Story = {
     type: 'gaman',
     imageData: mockReceiptImage,
     extractedData: mockGamanData,
-    onDataChange: (data) => console.log('Data changed:', data),
+    onDataChange: (data: any) => console.log('Data changed:', data),
   },
 };
 
@@ -87,7 +87,7 @@ export const SingleItem: Story = {
         productName: 'もやし'
       }
     ],
-    onDataChange: (data) => console.log('Data changed:', data),
+    onDataChange: (data: any) => console.log('Data changed:', data),
   },
 };
 
@@ -97,7 +97,7 @@ export const EmptyResults: Story = {
     type: 'otoku',
     imageData: mockReceiptImage,
     extractedData: [],
-    onDataChange: (data) => console.log('Data changed:', data),
+    onDataChange: (data: any) => console.log('Data changed:', data),
   },
 };
 
@@ -114,7 +114,7 @@ export const ManyItems: Story = {
       { id: '5', amount: 890, productName: 'ソックス' },
       { id: '6', amount: 15800, productName: 'ジャケット' },
     ],
-    onDataChange: (data) => console.log('Data changed:', data),
+    onDataChange: (data: any) => console.log('Data changed:', data),
   },
 };
 
@@ -135,6 +135,6 @@ export const HighValueItems: Story = {
         productName: 'ワイヤレスイヤホン'
       }
     ],
-    onDataChange: (data) => console.log('Data changed:', data),
+    onDataChange: (data: any) => console.log('Data changed:', data),
   },
 };

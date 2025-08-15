@@ -83,7 +83,7 @@ export const Default: Story = {
   args: {
     records: sampleRecords,
     onBack: () => console.log('戻る'),
-    onNavigateToEdit: (id) => console.log('編集ページに遷移:', id),
+    onNavigateToEdit: (id: string) => console.log('編集ページに遷移:', id),
   },
 };
 
@@ -92,7 +92,7 @@ export const Empty: Story = {
   args: {
     records: [],
     onBack: () => console.log('戻る'),
-    onNavigateToEdit: (id) => console.log('編集ページに遷移:', id),
+    onNavigateToEdit: (id: string) => console.log('編集ページに遷移:', id),
   },
 };
 
@@ -107,6 +107,6 @@ export const ManyRecords: Story = {
       productName: ['もやし', 'ブランドバッグ', 'コーヒー豆', '野菜セット', 'お菓子'][Math.floor(Math.random() * 5)],
     })),
     onBack: () => console.log('戻る'),
-    onNavigateToEdit: (id) => console.log('編集ページに遷移:', id),
+    onNavigateToEdit: (id: string) => console.log('編集ページに遷移:', id),
   },
 };

@@ -158,10 +158,12 @@ export const InteractiveExample: Story = {
     
     return (
       <EditRecordPage
-        {...args}
+        recordId={args.recordId}
+        initialData={args.initialData}
         isSubmitting={isSubmitting}
         onSave={handleSave}
         onDelete={handleDelete}
+        onCancel={args.onCancel}
       />
     );
   },

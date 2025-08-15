@@ -62,6 +62,7 @@ export default function EditCameraPageWrapper({ params }: EditCameraPageWrapperP
           id: tempData.id || tempId,
           productName: tempData.description || '',
           amount: tempData.discount_amount > 0 ? tempData.discount_amount : tempData.passed_amount || 0,
+          memo: tempData.memo || '',  // メモフィールド追加
         };
         
         setItem(itemData);
@@ -71,6 +72,7 @@ export default function EditCameraPageWrapper({ params }: EditCameraPageWrapperP
           id: `new-${Date.now()}`,
           productName: '',
           amount: 0,
+          memo: '',  // メモフィールド追加
         });
       }
     } catch (error) {
@@ -79,6 +81,7 @@ export default function EditCameraPageWrapper({ params }: EditCameraPageWrapperP
         id: `new-${Date.now()}`,
         productName: '',
         amount: 0,
+        memo: '',  // メモフィールド追加
       });
     } finally {
       setIsLoading(false);
@@ -86,42 +89,51 @@ export default function EditCameraPageWrapper({ params }: EditCameraPageWrapperP
   };
 
   const handleSave = async (itemToSave: CameraEditItem) => {
-    if (!user) return;
-    
     setIsSubmitting(true);
     try {
-      const insertData = {
-        user_id: user.id,
-        description: itemToSave.productName,
-        amount: itemToSave.amount,
-        discount_amount: type === 'otoku' ? itemToSave.amount : 0,
-        passed_amount: type === 'gaman' ? itemToSave.amount : 0,
-        category_id: 1,
-        expense_date: new Date().toISOString().split('T')[0],
-      };
-
-      const { data, error } = await supabase
-        .from('expenses')
-        .insert(insertData)
-        .select();
-
-      if (error) {
-        throw error;
+      // Phase 2: 中央データ管理への更新（データベース保存は後のフェーズで実装）
+      // セッションストレージに編集結果を保存して、中央データ管理に反映させる
+      // 新規項目かどうかを判定
+      let isNewItem = false;
+      
+      // 1. IDがnew-で始まる場合
+      if (itemToSave.id.startsWith('new-')) {
+        isNewItem = true;
+      }
+      // 2. camera-timestamp-new-xxx の形式の場合
+      else if (itemToSave.id.includes('camera-') && itemToSave.id.includes('new-')) {
+        isNewItem = true;
+      }
+      // 3. セッションデータでisNewItemフラグが設定されている場合
+      else {
+        const sessionData = sessionStorage.getItem('cameraEditData');
+        if (sessionData) {
+          try {
+            const parsedSession = JSON.parse(sessionData);
+            isNewItem = parsedSession.isNewItem || false;
+          } catch (error) {
+            console.error('セッションデータの解析に失敗:', error);
+          }
+        }
       }
       
-      // 編集データをセッションストレージに更新（削除ではなく更新済みマークを付ける）
       const updatedEditData = {
         id: itemToSave.id,
         description: itemToSave.productName,
         amount: itemToSave.amount,
+        memo: itemToSave.memo || '',  // メモフィールド追加
         discount_amount: type === 'otoku' ? itemToSave.amount : 0,
         passed_amount: type === 'gaman' ? itemToSave.amount : 0,
         category_id: 1,
         expense_date: new Date().toISOString().split('T')[0],
         isFromCamera: true,
+        isNewItem: isNewItem,  // 新規項目フラグを追加
         isUpdated: true,
-        savedToDatabase: true
+        // データベース保存はすべて登録時に実行するため、ここでは保存しない
+        savedToDatabase: false
       };
+      
+      console.log('✅ handleSave - isNewItem判定:', isNewItem, '、ID:', itemToSave.id);
       
       sessionStorage.setItem('cameraEditData', JSON.stringify(updatedEditData));
       
@@ -130,8 +142,8 @@ export default function EditCameraPageWrapper({ params }: EditCameraPageWrapperP
       router.push(`/record/${typeParam}/camera/result?fromEdit=true&updatedItemId=${itemToSave.id}`);
       
     } catch (error) {
-      console.error('保存に失敗しました:', error);
-      alert('保存に失敗しました。もう一度お試しください。');
+      console.error('編集データの保存に失敗しました:', error);
+      alert('編集データの保存に失敗しました。もう一度お試しください。');
     } finally {
       setIsSubmitting(false);
     }

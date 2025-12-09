@@ -33,6 +33,11 @@ const CameraCapturePage: React.FC<CameraCapturePageProps> = ({
 
   const startCamera = async () => {
     try {
+      // カメラへのアクセス権限をチェック
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        throw new Error('カメラAPIがサポートされていません');
+      }
+
       const mediaStream = await navigator.mediaDevices.getUserMedia({
         video: { 
           facingMode: 'environment', // 背面カメラを優先
@@ -48,7 +53,25 @@ const CameraCapturePage: React.FC<CameraCapturePageProps> = ({
       setIsLoading(false);
     } catch (err) {
       console.error('カメラの起動に失敗しました:', err);
-      setError('カメラにアクセスできません。ブラウザの設定を確認してください。');
+      
+      let errorMessage = 'カメラにアクセスできません。';
+      if (err instanceof DOMException) {
+        switch (err.name) {
+          case 'NotAllowedError':
+            errorMessage = 'カメラの使用が許可されていません。ブラウザ設定からカメラアクセスを有効にしてください。';
+            break;
+          case 'NotFoundError':
+            errorMessage = 'カメラが見つかりません。デバイスにカメラが接続されているか確認してください。';
+            break;
+          case 'NotSupportedError':
+            errorMessage = 'HTTPSまたはlocalhost環境でのみカメラアクセスが可能です。';
+            break;
+          default:
+            errorMessage = `カメラアクセスエラー: ${err.message}`;
+        }
+      }
+      
+      setError(errorMessage);
       setIsLoading(false);
     }
   };

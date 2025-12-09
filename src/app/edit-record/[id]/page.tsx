@@ -84,13 +84,14 @@ export default function EditRecordPageWrapper({ params }: EditRecordPageWrapperP
       }
 
       // RecordData形式に変換
+      const expenseData = expense as any; // 型アサーション
       const recordData: RecordData = {
-        id: String(expense.id),
-        type: expense.discount_amount > 0 ? 'otoku' : 'gaman',
-        amount: expense.discount_amount > 0 ? expense.discount_amount : expense.passed_amount,
-        date: expense.expense_date,
-        productName: expense.description,
-        created_at: expense.created_at,
+        id: String(expenseData.id),
+        type: (expenseData.discount_amount || 0) > 0 ? 'otoku' : 'gaman',
+        amount: (expenseData.discount_amount || 0) > 0 ? (expenseData.discount_amount || 0) : (expenseData.passed_amount || 0),
+        date: expenseData.expense_date || '',
+        productName: expenseData.description || '',
+        created_at: expenseData.created_at || '',
       };
 
       setRecordData(recordData);

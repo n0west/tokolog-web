@@ -50,8 +50,14 @@ export default function Home() {
       }
 
       // 統計データを計算
-      const otokuTotal = expenses?.reduce((sum, expense) => sum + (expense.discount_amount || 0), 0) || 0;
-      const gamanTotal = expenses?.reduce((sum, expense) => sum + (expense.passed_amount || 0), 0) || 0;
+      const otokuTotal = expenses?.reduce((sum, expense) => {
+        const expenseData = expense as any;
+        return sum + Number(expenseData.discount_amount || 0);
+      }, 0) || 0;
+      const gamanTotal = expenses?.reduce((sum, expense) => {
+        const expenseData = expense as any;
+        return sum + Number(expenseData.passed_amount || 0);
+      }, 0) || 0;
 
       setStatsData({
         otokuTotal,
@@ -61,14 +67,17 @@ export default function Home() {
       });
 
       // 最新の記録を取得（最大3件）
-      const records: RecordData[] = expenses?.slice(0, 3).map(expense => ({
-        id: expense.id.toString(),
-        type: expense.discount_amount > 0 ? 'otoku' : 'gaman',
-        amount: expense.discount_amount > 0 ? expense.discount_amount : expense.passed_amount,
-        date: new Date(expense.expense_date).toLocaleDateString('ja-JP'),
-        productName: expense.description,
-        created_at: expense.created_at,
-      })) || [];
+      const records: RecordData[] = expenses?.slice(0, 3).map(expense => {
+        const expenseData = expense as any;
+        return {
+          id: String(expenseData.id || ''),
+          type: (expenseData.discount_amount || 0) > 0 ? 'otoku' : 'gaman',
+          amount: (expenseData.discount_amount || 0) > 0 ? Number(expenseData.discount_amount || 0) : Number(expenseData.passed_amount || 0),
+          date: new Date(expenseData.expense_date || '').toLocaleDateString('ja-JP'),
+          productName: expenseData.description || '',
+          created_at: expenseData.created_at || '',
+        };
+      }) || [];
 
       setRecentRecords(records);
 

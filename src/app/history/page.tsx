@@ -92,14 +92,17 @@ function HistoryPageContent() {
       }
 
       // RecordData形式に変換
-      const formattedRecords: RecordData[] = expenses?.map(expense => ({
-        id: expense.id.toString(),
-        type: expense.discount_amount > 0 ? 'otoku' : 'gaman',
-        amount: expense.discount_amount > 0 ? expense.discount_amount : expense.passed_amount,
-        date: expense.expense_date,
-        productName: expense.description,
-        created_at: expense.created_at,
-      })) || [];
+      const formattedRecords: RecordData[] = expenses?.map(expense => {
+        const expenseData = expense as any; // 型アサーション
+        return {
+          id: String(expenseData.id || ''),
+          type: (expenseData.discount_amount || 0) > 0 ? 'otoku' : 'gaman',
+          amount: (expenseData.discount_amount || 0) > 0 ? (expenseData.discount_amount || 0) : (expenseData.passed_amount || 0),
+          date: expenseData.expense_date || '',
+          productName: expenseData.description || '',
+          created_at: expenseData.created_at || '',
+        };
+      }) || [];
 
       setRecords(formattedRecords);
 

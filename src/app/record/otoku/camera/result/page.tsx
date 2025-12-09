@@ -280,7 +280,7 @@ function OtokuCameraResultPageContent() {
                   amount: editedData.discount_amount || 0,
                   memo: editedData.memo || '',
                   confidence: 1.0,
-                  source: 'manual',
+                  source: 'manual' as const,
                   createdAt: new Date().toISOString(),
                   updatedAt: new Date().toISOString(),
                 }];

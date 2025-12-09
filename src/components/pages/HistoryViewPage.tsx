@@ -43,17 +43,14 @@ const HistoryViewPage: React.FC<HistoryViewPageProps> = ({
         const recordMonth = recordDate.getMonth();
 
         switch (periodFilter) {
-          case 'this_month':
-            return recordYear === currentYear && recordMonth === currentMonth;
-          case 'last_month':
-            const lastMonth = currentMonth === 0 ? 11 : currentMonth - 1;
-            const lastMonthYear = currentMonth === 0 ? currentYear - 1 : currentYear;
-            return recordYear === lastMonthYear && recordMonth === lastMonth;
           case 'this_year':
             return recordYear === currentYear;
-          case 'last_year':
-            return recordYear === currentYear - 1;
           default:
+            // yyyy-mm 形式の場合
+            if (periodFilter.includes('-')) {
+              const [filterYear, filterMonth] = periodFilter.split('-').map(Number);
+              return recordYear === filterYear && recordMonth === filterMonth - 1; // monthは0ベース
+            }
             return true;
         }
       });
@@ -130,74 +127,71 @@ const HistoryViewPage: React.FC<HistoryViewPageProps> = ({
             >
               <BackIcon width={24} height={24} color="#374151" />
             </button>
-            <h1 className="text-lg font-bold text-primary">あなたのデータ</h1>
+            <h1 className="text-lg font-bold text-primary">履歴</h1>
             <div className="w-8"></div>
           </div>
         </ResponsiveContainer>
 
-        {/* メインコンテンツ */}
-        <ResponsiveContainer variant="content" className="space-y-4 pb-4">
-        {/* フィルターセクション */}
-        <FilterSection
-          typeFilter={typeFilter}
-          periodFilter={periodFilter}
-          onTypeFilterChange={setTypeFilter}
-          onPeriodFilterChange={setPeriodFilter}
-        />
+        {/* メインコンテンツ - 1枚の統合カード */}
+        <ResponsiveContainer variant="content" className="pb-4">
+          <div className="bg-white rounded-3xl border border-sub-border p-6 space-y-6">
+            {/* フィルターセクション */}
+            <FilterSection
+              typeFilter={typeFilter}
+              periodFilter={periodFilter}
+              onTypeFilterChange={setTypeFilter}
+              onPeriodFilterChange={setPeriodFilter}
+              records={records}
+            />
 
-        {/* 合計カード */}
-        <TotalCard
-          totalAmount={totalAmount}
-          comparisonAmount={comparisonAmount}
-          comparisonLabel="先月比"
-        />
-
-        {/* 履歴セクション */}
-        <div className="bg-white rounded-3xl border border-sub-border">
-          <div className="p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-bold text-primary">履歴</h3>
-              <span className="text-sm text-secondary">項目をタップして編集できます</span>
-            </div>
+            {/* 合計カード */}
+            <TotalCard
+              totalAmount={totalAmount}
+              comparisonAmount={comparisonAmount}
+              comparisonLabel="先月比"
+            />
 
             {/* 履歴リスト */}
-            <div className="space-y-0">
-              {groupedRecords.length === 0 ? (
-                <div className="text-center py-8 text-secondary">
-                  {typeFilter === 'all' && periodFilter === 'all' 
-                    ? '記録がありません' 
-                    : '条件に一致する記録がありません'
-                  }
-                </div>
-              ) : (
-                groupedRecords.map(group => (
-                  <div key={group.period}>
-                    {/* 月ヘッダー */}
-                    <div className="text-right text-sm text-tertiary py-2 border-b border-gray-100">
-                      {group.period}
-                    </div>
-                    
-                    {/* 月の記録 */}
-                    <div className="space-y-0">
-                      {group.records.map((record, index) => (
-                        <HistoryItem
-                          key={record.id}
-                          id={record.id}
-                          type={record.type}
-                          amount={record.amount}
-                          date={record.date}
-                          productName={record.productName}
-                          onNavigateToEdit={onNavigateToEdit}
-                          className={index < group.records.length - 1 ? 'border-b border-gray-100' : ''}
-                        />
-                      ))}
-                    </div>
+            <div className="space-y-2">
+
+              {/* 履歴リスト */}
+              <div className="space-y-0">
+                {groupedRecords.length === 0 ? (
+                  <div className="text-center py-8 text-secondary">
+                    {typeFilter === 'all' && periodFilter === 'all' 
+                      ? '記録がありません' 
+                      : '条件に一致する記録がありません'
+                    }
                   </div>
-                ))
-              )}
+                ) : (
+                  groupedRecords.map(group => (
+                    <div key={group.period}>
+                      {/* 月ヘッダー */}
+                      <div className="text-right text-sm text-tertiary py-2 border-b border-gray-100">
+                        {group.period}
+                      </div>
+                      
+                      {/* 月の記録 */}
+                      <div className="space-y-0">
+                        {group.records.map((record, index) => (
+                          <HistoryItem
+                            key={record.id}
+                            id={record.id}
+                            type={record.type}
+                            amount={record.amount}
+                            date={record.date}
+                            productName={record.productName}
+                            onNavigateToEdit={onNavigateToEdit}
+                            className={index < group.records.length - 1 ? 'border-b border-gray-100' : ''}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
             </div>
           </div>
-        </div>
         </ResponsiveContainer>
       </div>
     </ResponsiveContainer>

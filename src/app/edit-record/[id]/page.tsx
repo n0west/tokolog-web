@@ -109,7 +109,6 @@ export default function EditRecordPageWrapper({ params }: EditRecordPageWrapperP
     try {
       const updateData: any = {
         description: formData.productName,
-        updated_at: new Date().toISOString(),
       };
 
       // おトク・ガマンに応じて適切なフィールドを更新
@@ -131,8 +130,8 @@ export default function EditRecordPageWrapper({ params }: EditRecordPageWrapperP
         return;
       }
       
-      // 成功時は履歴画面に戻る
-      router.push('/history');
+      // 成功時は履歴画面に戻る（更新成功フラグ付き）
+      router.push('/history?updated=true');
     } catch (error) {
       console.error('保存に失敗しました:', error);
       alert('保存に失敗しました。もう一度お試しください。');
@@ -158,8 +157,8 @@ export default function EditRecordPageWrapper({ params }: EditRecordPageWrapperP
         return;
       }
       
-      // 成功時は履歴画面に戻る
-      router.push('/history');
+      // 成功時は履歴画面に戻る（削除成功フラグ付き）
+      router.push('/history?deleted=true');
     } catch (error) {
       console.error('削除に失敗しました:', error);
       alert('削除に失敗しました。もう一度お試しください。');

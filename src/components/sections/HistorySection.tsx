@@ -31,7 +31,7 @@ const HistorySection: React.FC<HistorySectionProps> = ({
   const hasRecords = records.length > 0;
 
   return (
-    <div className={`bg-white rounded-3xl p-6 border border-sub-border ${className}`}>
+    <div className={`bg-white rounded-2xl p-6 border border-sub-border ${className}`}>
       {/* ヘッダー */}
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl font-bold text-primary">{title}</h2>

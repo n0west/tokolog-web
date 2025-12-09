@@ -37,12 +37,12 @@ const HistoryItem: React.FC<HistoryItemProps> = ({
 
   return (
     <div 
-      className={`flex items-center justify-between py-4 cursor-pointer hover:bg-gray-50 transition-colors ${className}`}
+      className={`flex items-center justify-between py-6 px-4 cursor-pointer hover:bg-gray-50 transition-colors ${className}`}
       onClick={() => onNavigateToEdit?.(id)}
     >
       {/* 左側：タイプと金額 */}
       <div className="flex-1">
-        <div className={`text-sm font-medium ${typeColor} mb-1`}>
+        <div className={`text-sm font-bold ${typeColor} mb-1`}>
           {typeLabel}
         </div>
         <div className={`text-2xl font-bold ${amountColor}`}>
@@ -51,7 +51,7 @@ const HistoryItem: React.FC<HistoryItemProps> = ({
       </div>
 
       {/* 右側：日付、商品名、編集ボタン */}
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center space-x-2">
         <div className="text-right">
           <div className="text-xs text-tertiary mb-1">
             {formatDate(date)}
@@ -63,7 +63,7 @@ const HistoryItem: React.FC<HistoryItemProps> = ({
         
         {onNavigateToEdit && (
           <div className="flex-shrink-0">
-            <ChevronRightIcon width={20} height={20} color="#9CA3AF" />
+            <ChevronRightIcon width={16} height={16} color="#94A3B8" />
           </div>
         )}
       </div>

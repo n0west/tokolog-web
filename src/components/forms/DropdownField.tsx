@@ -33,16 +33,16 @@ const DropdownField: React.FC<DropdownFieldProps> = ({
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         className={`
-          w-full px-4 py-3 text-left bg-white border-2 rounded-lg
+          w-full px-4 py-3 text-left bg-home border rounded-full font-bold
           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
           flex items-center justify-between
-          ${error ? 'border-red-500' : 'border-sub-border'}
+          ${error ? 'border-red-500' : 'border-gray-300'}
           ${!selectedOption ? 'text-secondary' : 'text-primary'}
         `}
       >
-        <span>{selectedOption ? selectedOption.label : placeholder}</span>
+        <span className="font-bold">{selectedOption ? selectedOption.label : placeholder}</span>
         <svg 
-          className={`w-5 h-5 transition-transform ${isOpen ? 'transform rotate-180' : ''}`}
+          className={`w-5 h-5 transition-transform text-gray-400 ${isOpen ? 'transform rotate-180' : ''}`}
           fill="none" 
           stroke="currentColor" 
           viewBox="0 0 24 24"

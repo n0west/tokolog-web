@@ -29,33 +29,29 @@ const TotalCard: React.FC<TotalCardProps> = ({
   };
 
   return (
-    <div className={`bg-white rounded-3xl p-6 border border-sub-border ${className}`}>
-      <div className="space-y-4">
-        {/* ヘッダー */}
-        <div>
-          <h3 className="text-sm font-bold text-secondary mb-1">合計</h3>
-        </div>
-
-        {/* メイン金額 */}
-        <div className="flex items-baseline justify-between">
-          <div className="text-right">
-            <span className="text-4xl font-bold text-primary">
-              {formatAmount(totalAmount)}
-            </span>
-            <span className="text-lg text-primary ml-1">円</span>
-          </div>
-        </div>
-
-        {/* 比較表示 */}
-        {comparisonAmount !== undefined && (
-          <div className="text-right">
-            <span className="text-sm text-secondary mr-2">{comparisonLabel}</span>
-            <span className={`text-sm font-medium ${getComparisonColor(comparisonAmount)}`}>
-              {formatComparison(comparisonAmount)}
-            </span>
-          </div>
-        )}
+    <div className={`p-4 border border-gray-300 rounded-2xl space-y-4 ${className}`}>
+      {/* ヘッダー */}
+      <div>
+        <h3 className="text-sm font-bold text-secondary mb-1">合計</h3>
       </div>
+
+      {/* メイン金額 */}
+      <div className="text-right">
+        <span className="text-4xl font-bold text-primary">
+          {formatAmount(totalAmount)}
+        </span>
+        <span className="text-lg font-bold text-secondary ml-1">円</span>
+      </div>
+
+      {/* 比較表示 */}
+      {comparisonAmount !== undefined && (
+        <div className="text-right">
+          <span className="text-sm text-secondary mr-2">{comparisonLabel}</span>
+          <span className={`text-sm font-medium ${getComparisonColor(comparisonAmount)}`}>
+            {formatComparison(comparisonAmount)}
+          </span>
+        </div>
+      )}
     </div>
   );
 };

@@ -32,6 +32,23 @@ const CameraCapturePage: React.FC<CameraCapturePageProps> = ({
     };
   }, []);
 
+  // ストリーム取得後の追加処理
+  useEffect(() => {
+    if (stream && videoRef.current) {
+      console.log('Stream tracks:', stream.getTracks().length);
+      
+      // ストリームの状態をログ
+      stream.getTracks().forEach((track, index) => {
+        console.log(`Track ${index}:`, {
+          kind: track.kind,
+          enabled: track.enabled,
+          readyState: track.readyState,
+          settings: track.getSettings()
+        });
+      });
+    }
+  }, [stream]);
+
   const startCamera = async () => {
     try {
       // カメラへのアクセス権限をチェック
@@ -39,21 +56,42 @@ const CameraCapturePage: React.FC<CameraCapturePageProps> = ({
         throw new Error('カメラAPIがサポートされていません');
       }
 
-      const mediaStream = await navigator.mediaDevices.getUserMedia({
-        video: { 
-          facingMode: 'environment', // 背面カメラを優先
-          width: { ideal: 1280 },
-          height: { ideal: 720 }
-        }
-      });
+      let mediaStream;
+      
+      // まず理想的な設定で試行
+      try {
+        mediaStream = await navigator.mediaDevices.getUserMedia({
+          video: { 
+            facingMode: 'environment',
+            width: { ideal: 1280 },
+            height: { ideal: 720 }
+          }
+        });
+        console.log('High quality stream obtained');
+      } catch (err) {
+        console.warn('High quality failed, trying basic settings:', err);
+        
+        // フォールバック: 基本設定
+        mediaStream = await navigator.mediaDevices.getUserMedia({
+          video: true
+        });
+        console.log('Basic stream obtained');
+      }
       
       setStream(mediaStream);
       if (videoRef.current) {
         videoRef.current.srcObject = mediaStream;
         
+        // タイムアウト設定（5秒後にフォールバック）
+        const timeoutId = setTimeout(() => {
+          console.warn('Video loading timeout, forcing load completion');
+          setIsLoading(false);
+        }, 5000);
+        
         // ビデオが再生可能になったらロード完了
         videoRef.current.onloadedmetadata = () => {
           console.log('Video metadata loaded');
+          clearTimeout(timeoutId);
           setIsLoading(false);
         };
         
@@ -62,10 +100,21 @@ const CameraCapturePage: React.FC<CameraCapturePageProps> = ({
           setIsVideoReady(true);
         };
         
+        videoRef.current.onplaying = () => {
+          console.log('Video is now playing');
+          setIsVideoReady(true);
+        };
+        
         videoRef.current.onerror = (e) => {
           console.error('Video error:', e);
+          clearTimeout(timeoutId);
           setError('ビデオの表示に問題が発生しました');
         };
+        
+        // 手動でplay()を実行
+        videoRef.current.play().catch(err => {
+          console.log('Autoplay prevented, but that\'s OK:', err);
+        });
       }
     } catch (err) {
       console.error('カメラの起動に失敗しました:', err);

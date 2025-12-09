@@ -19,6 +19,7 @@ const CameraCapturePage: React.FC<CameraCapturePageProps> = ({
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isVideoReady, setIsVideoReady] = useState(false);
 
   const instructionText = type === 'otoku' ? 'レシートを撮影してください' : 'レシートを撮影してください';
 
@@ -49,8 +50,23 @@ const CameraCapturePage: React.FC<CameraCapturePageProps> = ({
       setStream(mediaStream);
       if (videoRef.current) {
         videoRef.current.srcObject = mediaStream;
+        
+        // ビデオが再生可能になったらロード完了
+        videoRef.current.onloadedmetadata = () => {
+          console.log('Video metadata loaded');
+          setIsLoading(false);
+        };
+        
+        videoRef.current.oncanplay = () => {
+          console.log('Video can start playing');
+          setIsVideoReady(true);
+        };
+        
+        videoRef.current.onerror = (e) => {
+          console.error('Video error:', e);
+          setError('ビデオの表示に問題が発生しました');
+        };
       }
-      setIsLoading(false);
     } catch (err) {
       console.error('カメラの起動に失敗しました:', err);
       
@@ -77,24 +93,48 @@ const CameraCapturePage: React.FC<CameraCapturePageProps> = ({
   };
 
   const capturePhoto = () => {
-    if (!videoRef.current || !canvasRef.current) return;
+    if (!videoRef.current || !canvasRef.current) {
+      console.error('Video or canvas ref is null');
+      return;
+    }
 
     const video = videoRef.current;
     const canvas = canvasRef.current;
     const context = canvas.getContext('2d');
 
-    if (context) {
-      // キャンバスのサイズをビデオに合わせる
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-
-      // ビデオフレームをキャンバスに描画
-      context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-      // 画像データを取得（base64形式）
-      const imageData = canvas.toDataURL('image/jpeg', 0.8);
-      onCapture(imageData);
+    if (!context) {
+      console.error('Canvas context is null');
+      return;
     }
+
+    // ビデオの準備状況をチェック
+    if (video.videoWidth === 0 || video.videoHeight === 0) {
+      console.error('Video dimensions are 0', { 
+        videoWidth: video.videoWidth, 
+        videoHeight: video.videoHeight,
+        readyState: video.readyState
+      });
+      alert('カメラの映像が準備できていません。しばらくお待ちください。');
+      return;
+    }
+
+    console.log('Capturing photo', {
+      videoWidth: video.videoWidth,
+      videoHeight: video.videoHeight,
+      readyState: video.readyState
+    });
+
+    // キャンバスのサイズをビデオに合わせる
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+
+    // ビデオフレームをキャンバスに描画
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    // 画像データを取得（base64形式）
+    const imageData = canvas.toDataURL('image/jpeg', 0.8);
+    console.log('Image data length:', imageData.length);
+    onCapture(imageData);
   };
 
   const handleCancel = () => {
@@ -135,13 +175,25 @@ const CameraCapturePage: React.FC<CameraCapturePageProps> = ({
             <div className="text-white">カメラを起動中...</div>
           </div>
         ) : (
-          <video
-            ref={videoRef}
-            autoPlay
-            playsInline
-            muted
-            className="w-full h-full object-cover"
-          />
+          <>
+            <video
+              ref={videoRef}
+              autoPlay
+              playsInline
+              muted
+              className="w-full h-full object-cover"
+              style={{
+                transform: 'scale(1)',
+                background: 'black'
+              }}
+            />
+            {/* デバッグ情報 */}
+            {!isVideoReady && (
+              <div className="absolute top-4 left-4 text-white text-sm bg-black bg-opacity-50 p-2 rounded">
+                ビデオ準備中...
+              </div>
+            )}
+          </>
         )}
         
         {/* カメラフレーム用のオーバーレイ */}

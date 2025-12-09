@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import CameraCapturePage from '@/components/pages/CameraCapturePage';
+import CameraCapturePageSimple from '@/components/pages/CameraCapturePageSimple';
 
 export default function OtokuCameraPage() {
   const router = useRouter();
@@ -20,7 +20,7 @@ export default function OtokuCameraPage() {
   };
 
   return (
-    <CameraCapturePage
+    <CameraCapturePageSimple
       type="otoku"
       onCapture={handleCapture}
       onCancel={handleCancel}

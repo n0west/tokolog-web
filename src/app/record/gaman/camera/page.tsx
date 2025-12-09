@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import CameraCapturePage from '@/components/pages/CameraCapturePage';
+import CameraCapturePageSimple from '@/components/pages/CameraCapturePageSimple';
 
 export default function GamanCameraPage() {
   const router = useRouter();
@@ -20,7 +20,7 @@ export default function GamanCameraPage() {
   };
 
   return (
-    <CameraCapturePage
+    <CameraCapturePageSimple
       type="gaman"
       onCapture={handleCapture}
       onCancel={handleCancel}

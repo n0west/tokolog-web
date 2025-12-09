@@ -85,7 +85,7 @@ export default function EditRecordPageWrapper({ params }: EditRecordPageWrapperP
 
       // RecordData形式に変換
       const recordData: RecordData = {
-        id: expense.id.toString(),
+        id: String(expense.id),
         type: expense.discount_amount > 0 ? 'otoku' : 'gaman',
         amount: expense.discount_amount > 0 ? expense.discount_amount : expense.passed_amount,
         date: expense.expense_date,

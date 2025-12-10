@@ -60,18 +60,18 @@ export default function Home() {
       }, 0) || 0;
 
       // 先月比の計算
-      const currentDate = new Date();
-      const currentYear = currentDate.getFullYear();
-      const currentMonth = currentDate.getMonth();
+      const comparisonDate = new Date();
+      const comparisonYear = comparisonDate.getFullYear();
+      const comparisonMonth = comparisonDate.getMonth();
       
       // 前月の範囲
-      const lastMonth = currentMonth === 0 ? 11 : currentMonth - 1;
-      const lastMonthYear = currentMonth === 0 ? currentYear - 1 : currentYear;
+      const lastMonth = comparisonMonth === 0 ? 11 : comparisonMonth - 1;
+      const lastMonthYear = comparisonMonth === 0 ? comparisonYear - 1 : comparisonYear;
       const lastMonthStart = new Date(lastMonthYear, lastMonth, 1);
-      const lastMonthEnd = new Date(currentYear, currentMonth, 0);
+      const lastMonthEnd = new Date(comparisonYear, comparisonMonth, 0);
       
       // 今月の開始日
-      const thisMonthStart = new Date(currentYear, currentMonth, 1);
+      const thisMonthStart = new Date(comparisonYear, comparisonMonth, 1);
       
       // 前月のデータを抽出
       const lastMonthData = expenses?.filter(expense => {

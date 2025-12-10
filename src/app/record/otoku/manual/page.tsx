@@ -28,14 +28,23 @@ export default function OtokuManualPage() {
     
     try {
       console.log('保存データ:', data);
-      console.log('ユーザーID:', user.id);
+      console.log('ユーザー情報:', user);
+      
+      // データ検証
+      if (!data.productName || !data.amount) {
+        throw new Error('必須項目が入力されていません');
+      }
+      
+      if (!user.id) {
+        throw new Error('ユーザーIDが取得できません');
+      }
       
       // データを準備
       const insertData = {
         user_id: user.id,
         description: data.productName,
-        amount: data.originalAmount || data.amount,
-        discount_amount: data.discountAmount || data.amount,
+        amount: Number(data.originalAmount || data.amount),
+        discount_amount: Number(data.discountAmount || data.amount),
         passed_amount: 0, // おトクの場合は0
         category_id: 1, // デフォルトカテゴリ
         expense_date: new Date().toISOString().split('T')[0], // YYYY-MM-DD形式
@@ -43,14 +52,19 @@ export default function OtokuManualPage() {
       
       console.log('挿入データ:', insertData);
       
+      // Supabase接続テスト
+      const { data: testConnection } = await supabase.from('expenses').select('count').limit(1);
+      console.log('接続テスト結果:', testConnection);
+      
       // Supabaseにデータを保存
       const { data: result, error } = await supabase
         .from('expenses')
-        .insert([insertData]);
+        .insert([insertData])
+        .select();
 
       if (error) {
         console.error('Supabaseエラー詳細:', error);
-        throw error;
+        throw new Error(`データベースエラー: ${error.message}`);
       }
 
       console.log('保存成功:', result);

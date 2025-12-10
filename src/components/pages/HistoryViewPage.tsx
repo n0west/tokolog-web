@@ -108,10 +108,46 @@ const HistoryViewPage: React.FC<HistoryViewPageProps> = ({
     return filteredRecords.reduce((sum, record) => sum + record.amount, 0);
   }, [filteredRecords]);
 
-  // 先月比計算（簡易版）
+  // 先月比計算
   const comparisonAmount = useMemo(() => {
-    // 実際の実装では前期間との比較を行う
-    return Math.floor(Math.random() * 10000) - 5000; // ダミーデータ
+    if (filteredRecords.length === 0) {
+      return 0; // データがない場合は0
+    }
+
+    // 現在の期間の開始日と終了日を計算
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth();
+    
+    // 前月の開始日と終了日
+    const lastMonth = currentMonth === 0 ? 11 : currentMonth - 1;
+    const lastMonthYear = currentMonth === 0 ? currentYear - 1 : currentYear;
+    const lastMonthStart = new Date(lastMonthYear, lastMonth, 1);
+    const lastMonthEnd = new Date(currentYear, currentMonth, 0);
+    
+    // 今月の開始日
+    const thisMonthStart = new Date(currentYear, currentMonth, 1);
+    
+    // 前月のデータを抽出
+    const lastMonthRecords = filteredRecords.filter(record => {
+      const recordDate = new Date(record.date);
+      return recordDate >= lastMonthStart && recordDate <= lastMonthEnd;
+    });
+    
+    // 今月のデータを抽出
+    const thisMonthRecords = filteredRecords.filter(record => {
+      const recordDate = new Date(record.date);
+      return recordDate >= thisMonthStart;
+    });
+    
+    // 前月の合計金額を計算
+    const lastMonthTotal = lastMonthRecords.reduce((sum, record) => sum + record.amount, 0);
+    
+    // 今月の合計金額を計算
+    const thisMonthTotal = thisMonthRecords.reduce((sum, record) => sum + record.amount, 0);
+    
+    // 差額を計算
+    return thisMonthTotal - lastMonthTotal;
   }, [filteredRecords]);
 
   return (

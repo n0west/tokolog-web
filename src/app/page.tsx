@@ -59,11 +59,61 @@ export default function Home() {
         return sum + Number(expenseData.passed_amount || 0);
       }, 0) || 0;
 
+      // 先月比の計算
+      const currentDate = new Date();
+      const currentYear = currentDate.getFullYear();
+      const currentMonth = currentDate.getMonth();
+      
+      // 前月の範囲
+      const lastMonth = currentMonth === 0 ? 11 : currentMonth - 1;
+      const lastMonthYear = currentMonth === 0 ? currentYear - 1 : currentYear;
+      const lastMonthStart = new Date(lastMonthYear, lastMonth, 1);
+      const lastMonthEnd = new Date(currentYear, currentMonth, 0);
+      
+      // 今月の開始日
+      const thisMonthStart = new Date(currentYear, currentMonth, 1);
+      
+      // 前月のデータを抽出
+      const lastMonthData = expenses?.filter(expense => {
+        const expenseData = expense as any;
+        const expenseDate = new Date(expenseData.expense_date || '');
+        return expenseDate >= lastMonthStart && expenseDate <= lastMonthEnd;
+      }) || [];
+      
+      // 今月のデータを抽出  
+      const thisMonthData = expenses?.filter(expense => {
+        const expenseData = expense as any;
+        const expenseDate = new Date(expenseData.expense_date || '');
+        return expenseDate >= thisMonthStart;
+      }) || [];
+      
+      // 前月の合計
+      const lastMonthOtoku = lastMonthData.reduce((sum, expense) => {
+        const expenseData = expense as any;
+        return sum + Number(expenseData.discount_amount || 0);
+      }, 0);
+      
+      const lastMonthGaman = lastMonthData.reduce((sum, expense) => {
+        const expenseData = expense as any;
+        return sum + Number(expenseData.passed_amount || 0);
+      }, 0);
+      
+      // 今月の合計
+      const thisMonthOtoku = thisMonthData.reduce((sum, expense) => {
+        const expenseData = expense as any;
+        return sum + Number(expenseData.discount_amount || 0);
+      }, 0);
+      
+      const thisMonthGaman = thisMonthData.reduce((sum, expense) => {
+        const expenseData = expense as any;
+        return sum + Number(expenseData.passed_amount || 0);
+      }, 0);
+
       setStatsData({
         otokuTotal,
         gamanTotal,
-        otokuComparison: 0, // 先月比は後で実装
-        gamanComparison: 0, // 先月比は後で実装
+        otokuComparison: thisMonthOtoku - lastMonthOtoku,
+        gamanComparison: thisMonthGaman - lastMonthGaman,
       });
 
       // 最新の記録を取得（最大3件）

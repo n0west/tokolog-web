@@ -16,5 +16,20 @@
 
 body {
   color: var(--foreground);
-  background: var(--background);
+  background: var(--foreground);
+}
+
+/* モバイルブラウザの安全エリア対応 */
+@supports (padding: max(0px)) {
+  .pb-safe {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+}
+
+/* iOSのアドレスバー対応 */
+@supports (-webkit-appearance: none) {
+  .h-screen-mobile {
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
+  }
 }

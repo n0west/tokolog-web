@@ -48,7 +48,7 @@ const HomePage: React.FC<HomePageProps> = ({
             gamanAmount={statsData?.gamanTotal || 0}
             otokuComparison={statsData?.otokuComparison || 0}
             gamanComparison={statsData?.gamanComparison || 0}
-            showComparison={false} // 先月比は後で実装
+            showComparison={true}
           />
           
           <ActionSection

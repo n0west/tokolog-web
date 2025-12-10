@@ -105,44 +105,44 @@ const CameraCapturePageSimple: React.FC<CameraCapturePageProps> = ({
   }
 
   return (
-    <ResponsiveContainer variant="page" className={className}>
-      <div className="h-screen bg-black flex flex-col">
-        {/* Header */}
-        <div className="text-center py-4">
-          <h1 className="text-white text-lg font-medium">{instructionText}</h1>
-        </div>
+    <div className={`fixed inset-0 bg-black flex flex-col ${className}`}>
+      {/* Header */}
+      <div className="text-center py-3 flex-shrink-0">
+        <h1 className="text-white text-lg font-medium">{instructionText}</h1>
+      </div>
 
-        {/* Video Area */}
-        <div className="flex-1 relative">
-          <video
-            ref={videoRef}
-            autoPlay
-            playsInline
-            muted
-            className="w-full h-full object-cover"
-          />
-        </div>
+      {/* Video Area */}
+      <div className="flex-1 relative overflow-hidden">
+        <video
+          ref={videoRef}
+          autoPlay
+          playsInline
+          muted
+          className="w-full h-full object-cover"
+        />
+      </div>
 
-        {/* Controls */}
-        <div className="flex justify-center items-center py-8 gap-6">
+      {/* Controls - Fixed bottom with safe area */}
+      <div className="flex-shrink-0 pb-safe">
+        <div className="flex justify-center items-center py-4 gap-6 bg-black bg-opacity-50">
           <button
             onClick={stopCamera}
-            className="bg-gray-600 text-white px-6 py-3 rounded-full font-medium"
+            className="bg-gray-600 text-white px-6 py-3 rounded-full font-medium shadow-lg"
           >
             キャンセル
           </button>
           <button
             onClick={capturePhoto}
-            className="bg-white text-black px-8 py-4 rounded-full font-medium text-lg"
+            className="bg-white text-black px-8 py-4 rounded-full font-medium text-lg shadow-lg"
           >
             撮影
           </button>
         </div>
-
-        {/* Hidden canvas for capture */}
-        <canvas ref={canvasRef} style={{ display: 'none' }} />
       </div>
-    </ResponsiveContainer>
+
+      {/* Hidden canvas for capture */}
+      <canvas ref={canvasRef} style={{ display: 'none' }} />
+    </div>
   );
 };
 

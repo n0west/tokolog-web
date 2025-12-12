@@ -143,13 +143,20 @@ function OtokuCameraResultPageContent() {
   };
 
   useEffect(() => {
-    const savedImage = sessionStorage.getItem('cameraImage');
+    // カメラロールから選択された画像またはカメラで撮影された画像を取得
+    const savedImage = sessionStorage.getItem('cameraImage') || sessionStorage.getItem('selectedImage');
     if (!savedImage) {
       router.back();
       return;
     }
     
     setImageData(savedImage);
+    
+    // selectedImageがある場合はカメラロールから選択された画像なので、cameraImageにも保存
+    if (sessionStorage.getItem('selectedImage') && !sessionStorage.getItem('cameraImage')) {
+      sessionStorage.setItem('cameraImage', savedImage);
+      sessionStorage.removeItem('selectedImage'); // 使用後に削除
+    }
     
     // 既存の処理済みデータがあるかチェック、ただし編集処理中はスキップ
     const fromEdit = new URLSearchParams(window.location.search).get('fromEdit');

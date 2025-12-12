@@ -8,7 +8,7 @@ import HomePage from '@/components/pages/HomePage';
 import { StatsData, RecordData } from '@/types/database';
 
 export default function Home() {
-  const { user, loading } = useAuth();
+  const { user, loading, signOut } = useAuth();
   const router = useRouter();
   const [statsData, setStatsData] = useState<StatsData | null>(null);
   const [recentRecords, setRecentRecords] = useState<RecordData[]>([]);
@@ -150,9 +150,15 @@ export default function Home() {
     router.push('/history');
   };
 
-  const handleSettingsClick = () => {
-    // 設定画面は後で実装
-    console.log('設定画面（未実装）');
+  const handleSettingsClick = async () => {
+    // 一時的にログアウト機能として実装
+    try {
+      await signOut();
+      router.push('/login');
+    } catch (error) {
+      console.error('ログアウトエラー:', error);
+      alert('ログアウトに失敗しました');
+    }
   };
 
   if (loading || dataLoading) {

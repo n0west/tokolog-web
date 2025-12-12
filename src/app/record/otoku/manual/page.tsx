@@ -30,18 +30,36 @@ export default function OtokuManualPage() {
       console.log('保存データ:', data);
       console.log('ユーザー情報:', user);
       
+      // 現在のセッション状態を確認
+      const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+      console.log('現在のセッション:', sessionData);
+      console.log('セッションエラー:', sessionError);
+      
+      // セッションとユーザー情報をダブルチェック
+      const { data: userData, error: userError } = await supabase.auth.getUser();
+      console.log('現在のユーザー:', userData);
+      console.log('ユーザーエラー:', userError);
+      
+      if (!sessionData.session && !userData.user) {
+        throw new Error('認証が必要です。再ログインしてください。');
+      }
+      
+      // 有効な認証情報を使用
+      const authenticatedUserId = sessionData.session?.user?.id || userData.user?.id || user.id;
+      
+      if (!authenticatedUserId) {
+        throw new Error('ユーザーIDが取得できません');
+      }
+      
       // データ検証
       if (!data.productName || !data.amount) {
         throw new Error('必須項目が入力されていません');
       }
       
-      if (!user.id) {
-        throw new Error('ユーザーIDが取得できません');
-      }
       
       // データを準備
       const insertData = {
-        user_id: user.id,
+        user_id: authenticatedUserId,
         description: data.productName,
         amount: Number(data.originalAmount || data.amount),
         discount_amount: Number(data.discountAmount || data.amount),
@@ -52,11 +70,7 @@ export default function OtokuManualPage() {
       
       console.log('挿入データ:', insertData);
       
-      // Supabase接続テスト
-      const { data: testConnection } = await supabase.from('expenses').select('count').limit(1);
-      console.log('接続テスト結果:', testConnection);
-      
-      // Supabaseにデータを保存
+      // 認証されたクライアントでデータを保存
       const { data: result, error } = await supabase
         .from('expenses')
         .insert([insertData])
